@@ -42,4 +42,4 @@ At the beginning of the analysis, Saguaro will calculate a single cactus for the
 
 As a full Saguaro analysis can take several hours to days depending on the size of the sequence alignment, only a preliminary analysis of a single chromosome (linkage group 5 of the tilapia genome assembly) will be done as part of this tutorial.
 
-1. As a first step, please download the sequence alignment for linkage group 5 from [Introgression-Tutorial/LG05.fasta.zip](Introgression-Tutorial/LG05.fasta.zip)
+1. As a first step, please download the sequence alignment for linkage group 5 from [LG05.fasta.zip](LG05.fasta.zip)
