@@ -42,4 +42,16 @@ At the beginning of the analysis, Saguaro will calculate a single cactus for the
 
 As a full Saguaro analysis can take several hours to days depending on the size of the sequence alignment, only a preliminary analysis of a single chromosome (linkage group 5 of the tilapia genome assembly) will be done as part of this tutorial.
 
-1. As a first step, please download the sequence alignment for linkage group 5 from [https://github.com/mmatschiner/Introgression-Tutorial/blob/master/LG05.fasta.zip?raw=true](https://github.com/mmatschiner/Introgression-Tutorial/blob/master/LG05.fasta.zip?raw=true).
+1. As a first step, please download the sequence alignment for linkage group 5 from [https://github.com/mmatschiner/Introgression-Tutorial/blob/master/LG05.fasta.zip?raw=true](https://github.com/mmatschiner/Introgression-Tutorial/blob/master/LG05.fasta.zip?raw=true) (the download may take a few moments to start). Save it in a directory, in which you'ld like to run this tutorial.
+
+2.  Unzip the alignment file by double-clicking, or by typing
+
+		unzip LG05.fasta.zip
+in a console window (after navigating to the directory in which you saved it).
+
+Saguaro expects its input in a particular binary format, which the authors call a "feature". To allow the conversion of commonly used file formats into this feature format, the Saguaro installation includes several conversion tools like Fasta2HMMFeature, Maf2HMMFeature, and VCF2HMMFeature. These should be located in the same directory as the Saguaro executable.
+
+3. Type the following in a console window to convert the alignment into a Saguaro feature:
+
+		Fasta2HMMFeature -i LG05.fasta -o LG05.feature -m 4 -n LG05 > LG05.out
+
