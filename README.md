@@ -20,15 +20,15 @@ In this tutorial, the above methods will be used to identify introgression betwe
 
 The following software needs to be installed on your machine in order to run all analyses included in this tutorial:
 
-* **Saguaro:** If Saguaro is not yet installed on your system, please follow the installation instructions at [http://saguarogw.sourceforge.net](http://saguarogw.sourceforge.net). Note that Saguaro runs on Linux, and while in principle the installation should also be possible on a Mac, I have been unable to get it to run on Mac OS X Yosemite. If you have access to a Linux server with a Saguaro installation, but you would like to run the rest of the tutorial on your own machine, you can do so by transferring input and ouput files of Saguaro via scp between your machine and the Linux server. To check whether the Saguaro installation succeeded, just type <span style="font-family:Courier;">"Saguaro"</span> in a console window.
+* **Saguaro:** If Saguaro is not yet installed on your system, please follow the installation instructions at [http://saguarogw.sourceforge.net](http://saguarogw.sourceforge.net). Note that Saguaro runs on Linux, and while in principle the installation should also be possible on a Mac, I have been unable to get it to run on Mac OS X Yosemite. If you have access to a Linux server with a Saguaro installation, but you would like to run the rest of the tutorial on your own machine, you can do so by transferring input and ouput files of Saguaro via scp between your machine and the Linux server. To check whether the Saguaro installation succeeded, just type `Saguaro` in a console window.
 
-* **Ruby:** This tutorial comes with a number of scripts for file conversion and visualization, and these are written in the programming language Ruby. Please make sure that a recent version of Ruby (2.0 and newer) is installed on your machine, which you can check by typing <span style="font-family:Courier;">"ruby -v"</span> in a console window. On most Linux and Mac systems, this should already be the case, and Ruby can be installed on all systems if it isn't. Dowloads and installation instructions are available at [https://www.ruby-lang.org/en/](https://www.ruby-lang.org/en/).
+* **Ruby:** This tutorial comes with a number of scripts for file conversion and visualization, and these are written in the programming language Ruby. Please make sure that a recent version of Ruby (2.0 and newer) is installed on your machine, which you can check by typing `ruby -v` in a console window. On most Linux and Mac systems, this should already be the case, and Ruby can be installed on all systems if it isn't. Dowloads and installation instructions are available at [https://www.ruby-lang.org/en/](https://www.ruby-lang.org/en/).
 
 * **Firefox or another web browser:** For the visualization of Saguaro output, one of the Ruby scripts produces vector graphic figures in SVG format. These figures can be opened with a range of tools, including [Adobe Illustrator](http://www.adobe.com/products/illustrator.html) and [Inkscape](https://inkscape.org/en/), but any modern web browser ([Firefox](https://www.mozilla.org/en-US/firefox/new/), [Safari](http://www.apple.com/safari/), [Chrome](https://www.google.com/chrome/)) will also do the job.
 
 * **AliView:** To visualize sequence alignments, the software AliView is recommended. The installation of AliView is described at [http://www.ormbunkar.se/aliview/](http://www.ormbunkar.se/aliview/) and should be possible on all operating systems. While AliView has many options for alignment editing, it is here used only for visualization, and can be replaced by other alignment viewers (or even a text editor), if for some reason the installation fails. A more extensive tutorial on AliView is available from the [Workshop on Molecular Evolution](http://evomics.org/learning/bioinformatics/multiple-sequence-alignment-ami-version/).
 
-* **Java SDK 8:** In order to run BEAST, version 8 of the Java SE Development Kit is required. To check whether your machine already has this version, type <span style="font-family:Courier;">"java -version"</span> in a console window. If you then see something like <span style="font-family:Courier;">"java version 1.8.0_31"</span>, your version is recent enough (as for some reason version 8 is synonymous with version 1.8). If this is not the case, the latest version for your operating system can be downloaded from [http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html), after accepting the license agreement.
+* **Java SDK 8:** In order to run BEAST, version 8 of the Java SE Development Kit is required. To check whether your machine already has this version, type `java -version` in a console window. If you then see something like "java version 1.8.0_31", your version is recent enough (as for some reason version 8 is synonymous with version 1.8). If this is not the case, the latest version for your operating system can be downloaded from [http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html), after accepting the license agreement.
 
 * **BEAST 2:** The Bayesian phylogenetic software BEAST 2 comes as a package combining BEAST itself with BEAUti, TreeAnnotator, and other tools. Of these, BEAUti will be used to generate input for BEAST in XML format, BEAST will be used to run the Bayesian phylogenetic analysis, and the results will be summarized with TreeAnnotator. Each of these tools runs on Linux, Mac, and Windows machines. The latest version of the BEAST 2 package can be downloaded from [http://beast2.org](http://beast2.org).
 
@@ -42,16 +42,109 @@ At the beginning of the analysis, Saguaro will calculate a single cactus for the
 
 As a full Saguaro analysis can take several hours to days depending on the size of the sequence alignment, only a preliminary analysis of a single chromosome (linkage group 5 of the tilapia genome assembly) will be done as part of this tutorial.
 
-1. As a first step, please download the sequence alignment for linkage group 5 from [https://github.com/mmatschiner/Introgression-Tutorial/blob/master/LG05.fasta.zip?raw=true](https://github.com/mmatschiner/Introgression-Tutorial/blob/master/LG05.fasta.zip?raw=true) (the download may take a few moments to start). Save it in a directory, in which you'ld like to run this tutorial.
+* As a first step, please **download the sequence alignment** for linkage group 5 from [https://github.com/mmatschiner/Introgression-Tutorial/blob/master/LG05.fasta.zip?raw=true](https://github.com/mmatschiner/Introgression-Tutorial/blob/master/LG05.fasta.zip?raw=true) (the download may take a few moments to start). Save it in a directory, in which you'ld like to run this tutorial.
 
-2.  Unzip the alignment file by double-clicking, or by typing
+*  **Unzip the alignment file** by double-clicking, or by typing
 
 		unzip LG05.fasta.zip
 in a console window (after navigating to the directory in which you saved it).
 
 Saguaro expects its input in a particular binary format, which the authors call a "feature". To allow the conversion of commonly used file formats into this feature format, the Saguaro installation includes several conversion tools like Fasta2HMMFeature, Maf2HMMFeature, and VCF2HMMFeature. These should be located in the same directory as the Saguaro executable.
 
-3. Type the following in a console window to convert the alignment into a Saguaro feature:
+* Type the following in a console window to **convert the alignment into a Saguaro feature**:
 
-		Fasta2HMMFeature -i LG05.fasta -o LG05.feature -m 4 -n LG05 > LG05.out
+		Fasta2HMMFeature -i LG05.fasta -o LG05.feature -n LG05 -m 4 > LG05.out
+Here, the input file is specified with the `-i` option, the name of the output file in "feature" format is given with the `-o` option, and a name for the linkage group is specified with `-n`. By using `-m 4`, only sites with a minimum coverage of 4 (i.e. missing data for maximally 3 out of the 7 sequences in the alignment) are included in the "feature" file. To avoid too much output on the screen, the output is sent to a file that we name `LG05.out`.
 
+* **Run Saguaro** on the "feature" file for linkage group 5 by typing
+
+		Saguaro -f LG05.feature -o saguaro_results -iter 16 -cycle 1 -neurons 100
+This specifies that file `LG05.feature` is used as input for Saguaro and that all results are written to a directory called `saguaro_results`, which is created by Saguaro. If more than one alignment was used as the input, these could be specified something like `-l all_features.txt`, where the file `all_features.txt` would have to contain only a list of the file names of all input "feature" files. We here use the options `-iter 16`, `-cycle 1`, and `-neurons 100` only in order to reduce the run time for the purpose of this tutorial. With these options, Saguaro runs 16 iterations in which cacti are added, and each iteration contains a single cycle in which cacti are optimized and assigned to sites. The 100 "neurons" are used to generate a new cactus in each iteration based on the sites that have the lowest fit to any of the cacti already included in the model. If we would not specify these options, Saguaro would by default perform 40 iterations with 2 cycles per iteration, and it would use 800 neurons. Each of these changes would increase the run duration, but probably also the accuracy of the results, and it is recommend to keep the default options whenever the resulting run time is acceptable. With the settings used here, the Saguaro analysis should take 10-15 minutes, depending on the speed of your computer.
+
+* Once the Saguaro analysis has finished, results should have been written to directory `saguaro_results`. **Have a look at the content of this directory**. You'll see the following files:
+
+		HMMTrain.out.0
+		HMMTrain.out.1
+		HMMTrain.out.2
+		...
+		LocalTrees.out
+		saguaro.cactus
+		saguaro.config
+		saguaro.garbage
+		saguaro.garbage.vec
+Of these, only `LocalTrees.out` and `saguaro.cactus` are interesting for us.
+
+* **Open file** `saguaro.cactus` in a text editor, or in a console window (e.g. by typing `less saguaro_results/saguaro.cactus`). You should see more or less the following content:
+
+		cactus0
+		Br	Gr	Ma	Mz	Ol	Pu	On
+		Br	0.021704	0.236808	0.262940	1.824387	0.240841	0.220309	1.722597
+		Gr	0.236808	0.020616	0.208407	1.680392	0.236869	0.245299	1.825267
+		Ma	0.262940	0.208407	0.009898	1.679830	0.227633	0.246533	1.799380
+		Mz	1.824387	1.680392	1.679830	0.001310	1.879314	1.994391	0.116698
+		Ol	0.240841	0.236869	0.227633	1.879314	0.020897	0.145890	2.067251
+		Pu	0.220309	0.245299	0.246533	1.994391	0.145890	0.003647	2.138905
+		On	1.722597	1.825267	1.799380	0.116698	2.067251	2.138905	-0.000000
+		cactus1
+		...
+This is the distance matrix for the first cactus (cactus0), followed by distance matrices for all other cacti.
+
+The two-character identifiers "Br", "Gr", etc. are the codes used here for the seven species included in the analysis. They will be used throughout this tutorial.
+
+| Code | Species                        | Group    |
+|------|--------------------------------|----------|
+| Br   | *Neolamprologus brichardi*     | Ingroup  |
+| Gr   | *Neolamprologus gracilis*      | Ingroup  |
+| Ma   | *Neolamprologus marunguensis*  | Ingroup  |
+| Mz   | *Metriaclima zebra*            | Outgroup |
+| Ol   | *Neolamprologus olivaceous*    | Ingroup  |
+| Pu   | *Neolamprologus pulcher*       | Ingroup  |
+| On   | *Oreochromis niloticus*        | Outgroup |
+
+* Next, **open file** `LocalTrees.out` in a text editor or a console window. You'll see something like this:
+
+		Reading features...
+		done!
+		Reading models.
+		Dynprog'ing...
+		Setting up HMM...
+		Adding word cactus0 as # 0
+		...
+Scroll down a bit to this part:
+
+		...
+		Processed: 380000 (98.559 %)
+		REPORTING Traceback and Update
+		cactus14	LG05: 1278 - 487927	length: 486649	(frames 1-3313 l=3312) 	score=20.7077
+		Br	Gr	Ma	Mz	Ol	Pu	On
+		Br	0.02	0.59	0.47	1.36	0.46	0.45	1.14
+		Gr	0.59	0.03	0.50	1.04	0.55	0.54	1.23
+		Ma	0.47	0.50	0.03	1.34	0.35	0.31	1.52
+		Mz	1.36	1.04	1.34	0.01	1.43	1.42	0.29
+		Ol	0.46	0.55	0.35	1.43	0.03	0.27	1.63
+		Pu	0.45	0.54	0.31	1.42	0.27	0.03	1.64
+		On	1.14	1.23	1.52	0.29	1.63	1.64	-0.00
+		cactus0	LG05: 487940 - 499860	length: 11920	(frames 3314-3504 l=190) 	score=378.688
+		...
+These lines contain information on the first segment identified by Saguaro. It is assigned to cactus14, and is located between position 1278 and position 487927 on linkage group 5 (LG05 - not too surprisingly, as this is the only linkage group used here). In contrast to distance matrices given in file `saguaro.cactus`, the distance matrices given in this in `LocalTrees.out` are calculated per segment, not per cactus. Nevertheless, the distance matrix of the first segment between position 1278 and position 487927 is likely very similar to that of cactus14, otherwise, this segment would not have been assigned to this cactus.
+
+As we're not particularly interested in the distance matrices of segments, but more in the placement of segment boundaries so that we can select alignment regions for phylogenetic analyses that are not broken up by boundaries, the most imporant information for us is in the header lines for each segment.
+
+* To **see only header information** for each cactus, type
+
+		cat saguaro_results/LocalTrees.out | grep length
+You should see output like this:
+
+		cactus14	LG05: 1278 - 487927	length: 486649	(frames 1-3313 l=3312) 	score=20.7077
+		cactus0	LG05: 487940 - 499860	length: 11920	(frames 3314-3504 l=190) 	score=378.688
+		cactus9	LG05: 499901 - 706017	length: 206116	(frames 3505-4791 l=1286) 	score=77.6632
+		cactus0	LG05: 706087 - 733860	length: 27773	(frames 4792-5075 l=283) 	score=365.399
+		cactus14	LG05: 736928 - 1158725	length: 421797	(frames 5076-8167 l=3091) 	score=54.6317
+		cactus0	LG05: 1158770 - 1187064	length: 28294	(frames 8168-8338 l=170) 	score=1003.93
+		...
+		
+* To **find out how many segments** Saguaro has identified, you could type
+
+ 		cat saguaro_results/LocalTrees.out | grep length | wc -l
+ 		
+* In order to visualize segment boundaries and the cacti assigned to segments, **download the Ruby script paint_chromosomes.rb** from [https://github.com/mmatschiner/Introgression-Tutorial/blob/master/paint_chromosomes.rb?raw=true](https://github.com/mmatschiner/Introgression-Tutorial/blob/master/paint_chromosomes.rb?raw=true), and save it in the directory that you're using for this tutorial.
