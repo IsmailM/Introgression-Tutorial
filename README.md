@@ -32,6 +32,8 @@ The following software needs to be installed on your machine in order to run all
 
 * **BEAST 2:** The Bayesian phylogenetic software BEAST 2 comes as a package combining BEAST itself with BEAUti, TreeAnnotator, and other tools. Of these, BEAUti will be used to generate input for BEAST in XML format, BEAST will be used to run the Bayesian phylogenetic analysis, and the results will be summarized with TreeAnnotator. Each of these tools runs on Linux, Mac, and Windows machines. The latest version of the BEAST 2 package can be downloaded from [http://beast2.org](http://beast2.org).
 
+* **Tracer:** Run convergence of BEAST analyses can be assessed most easily with the software Tracer. Even though Tracer was originally developed together with BEAST by the same authors, it is not part of the BEAST package but comes as a separate download and is available from [http://tree.bio.ed.ac.uk/software/tracer/](http://tree.bio.ed.ac.uk/software/tracer/).
+
 * **PhyloNet:** The latest binary jar file of the software PhyloNet can be downloaded from [http://bioinfo.cs.rice.edu/phylonet](http://bioinfo.cs.rice.edu/phylonet), which should run on all operating systems. After download, the file should be placed in a directory that can easily be accessed from the command line.
 
 ## Identification of genomic regions for phylogenetic inference
@@ -214,6 +216,10 @@ For Bayesian phylogenetic analyses with BEAST, a sequence alignment together wit
 
 In this part of the tutorial, we will use BEAUti and BEAST to infer the phylogeny of one or more (depending on time) alignment block that should be selected at random from all alignment blocks written in the previous part of the tutorial. The idea is that the resulting phylogenies could then be shared among all participants to quickly produce a sufficient set of phylogenies for the next part of the tutorial, in which we will then use PhyloNet to infer introgression.
 
+While we here use BEAST only for very simple phylogenetic analyses, the software is extremely powerful and flexible. For those eager to learn more, a large number of tutorials are available at [http://beast2.org/tutorials/](http://beast2.org/tutorials/), and extensive documentation can be found in the book on BEAST 2: [http://beast2.org/book/](http://beast2.org/book/).
+
+#### Preparing the BEAST analysis
+
 * As a first step, **open BEAUti**.
 
 * In BEAUti's File menu, **click "Import Alignment"** and select again one of the alignment block NEXUS files in directory `alignment_blocks`. This is what you should see:<br><br>
@@ -249,13 +255,26 @@ The values on the x-axis of this plot can be considered to be in units of millio
 
 * Finally, **move on to the MCMC tab** and set the chain length to 2000000. This means that 2 million steps of the Monte Carlo Markov Chain (MCMC) will be conducted to sample from the posterior distribution of all parameters included in the model, including the phylogeny. This chain length is sufficient for the purpose of this tutorial, but a far longer chain with 10-50 million steps should probably be run for a proper analysis.
 
-* **Save** all settings in an XML format file for BEAST, by clicking "Save As" in BEAUti's File menu. As file name, choose the name of the NEXUS file that was used as input for BEAUti, but replace the ending `.nex` with `.xml`.
+* **Save** all settings in an XML format file for BEAST, by clicking "Save As" in BEAUti's File menu. As file name, choose the name of the NEXUS file that was used as input for BEAUti, but replace the ending `.nex` with `.xml`. Then, close BEAUti.
 
-* Next, close BEAUti, and **open BEAST** instead.
+* Take a moment to **look through the XML format file**, to familiarize yourself with the specifications. Note that the sequence alignment is given at the top of the file with `<data ...>...</data>`, followed by several definitions of shortcuts for mathematical distributions, in elements that start and end with `<map>...</map>`. Everything else is defined within the `<run ...>...</run>` element, including the chain length on the same line as `<run ...>`, the `<state ...>...</state>` element in which all model parameters are introduced, and the `<init ...>...</init>` element which tells BEAST how to initialize the tree for the very first MCMC step. All priors, including the taxon sets, as well as the way to calculate the likelihood are listed inside the element that starts with `<distribution id=posterior ...>` and ends on roughly line 155. Below this, the `<operator .../>` elements specify how new parameter values should be chosen at each step of the MCMC, and the `<logger ...>...</logger>` elements tell BEAST which information should be logged to files or to the screen output.
+
+#### Running the BEAST analysis
+
+* Next, **open the software BEAST**.
 
 * **Click on "Choose File..."** and select the XML format file that you just saved with BEAUti.
 
 * Leave all other settings at their defaults, and **click "Run"** to start the Bayesian phylogenetic analysis.
 
-* While the analysis runs, you may **follow the output** given in the analysis window. This output shows some summary information at every 1000th step of the MCMC. The current step number is logged in the first column, the second column shows the posterior probability of the model with the current parameter estimates, and the third column shows the current effective sample sizes (ESS) of the posterior probability. These are a measure of how well the MCMC chain has already converged. Usually, MCMC chains can be considered as having converged when all parameters of the model have ESS values greater than 100. The last column shows the estimated run duration for 1 million MCMC steps. As we have specified that our analysis should run for 2 million MCMC steps, the estimated run duration of "1m46s/Msamples" indicates that the run will take three to four minutes:<br><br>
+* While the analysis runs, you may **follow the output** given in the analysis window. This output shows some summary information at every 1000th step of the MCMC. The current step number is logged in the first column, the second column shows the posterior probability of the model with the current parameter estimates, and the third column shows the current effective sample sizes (ESS) of the posterior probability. These are a measure of how well the MCMC chain has already converged. Usually, MCMC chains can be considered as having converged when all parameters of the model have ESS values greater than 100. The last column shows the estimated run duration for 1 million MCMC steps. As we have specified that our analysis should run for 2 million MCMC steps, the estimated run duration of "1m47s/Msamples" indicates that the run will take three to four minutes:<br><br>
 ![BEAST screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/beast.png "BEAST screenshot")
+
+* Once the analysis has finished, **close BEAST**.
+
+#### Assessing convergence of the BEAST analysis
+
+BEAST should have written a file with ending `.log`, and a file with ending `.trees` to the directory, in which the XML format input file for BEAST was placed.
+
+* Find the BEAST output file with ending `.log`, and open it in Tracer. You should see something like this:<br><br>
+![TRACER screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/tracer1.png "TRACER screenshot")
