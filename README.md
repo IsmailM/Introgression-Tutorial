@@ -205,8 +205,7 @@ With the settings used in the command above, the script will read file `saguaro_
 
 		ls alignment_blocks | wc -l
 		
-* Pick one of the files in this directory at random, and open it in the alignment viewer AliView to get a feeling for the size of the alignment block, as well as for its sequence variation and the amount of missing data.
-
+* Pick one of the files in this directory at random, and open it in the alignment viewer AliView just to get a feeling for the size of the alignment block, as well as for its sequence variation and the amount of missing data. You should see something like this:<br>
 ![AliView screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/aliview.png "AliView screenshot")
 		
 ## Bayesian phylogenetic inference with BEAST 2
@@ -214,3 +213,8 @@ With the settings used in the command above, the script will read file `saguaro_
 For Bayesian phylogenetic analyses with BEAST, a sequence alignment together with all prior information is required to be in an XML format file, which is used as input for BEAST. The specification of all input information in this XML format is complicated, but fortunately one rarely has to write or edit these files by hand. Instead, the tool BEAUti, which is part of the BEAST program package, provides a convenient graphical user interface with which one can import sequence data and write the XML for BEAST.
 
 In this part of the tutorial, we will use BEAUti and BEAST to infer the phylogeny of one or more (depending on time) alignment block that should be selected at random from all alignment blocks written in the previous part of the tutorial. The idea is that the resulting phylogenies could then be shared among all participants to quickly produce a sufficient set of phylogenies for the next part of the tutorial, in which we will then use PhyloNet to infer introgression.
+
+* As a first step, **open BEAUti**.
+
+* In BEAUti's File menu, **click "Import Alignment"** and select again one of the alignment block NEXUS files in directory `alignment_blocks`.<br>
+![BEAUti screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/beauti1.png "BEAUti screenshot")
