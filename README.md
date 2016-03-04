@@ -171,14 +171,14 @@ If you see this short help text, everything seems fine:
 This will generate a vector graphic file in SVG format that will be written to the same directory in which `LocalTrees.out` is placed (i.e. `saguaro_results`), and it will be named `LocalTrees.svg`.
 
 * **Open the vector graphic file** `LocalTrees.svg` in Firefox or another web browser. This is what you should see:<br>
-![LocalTrees.svg](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/LocalTrees.svg "LocalTrees.svg")<br>
+![LocalTrees.svg](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/images/LocalTrees.svg "LocalTrees.svg")<br>
 In this image, segments assigned to the most common cactus are drawn in dark gray, and segments assigned to other cacti are shown in red, orange, cyan, and light green, purple (in decreasing frequency). With more than six different cacti, all remaining cacti are shown in light gray. As you can see, only four cacti are common (dark gray, red, orange, and cyan). Also, you'll notice that the most frequent cactus (in dark gray) is mostly found in the center of the linage group, while other cacti dominate towards the ends of the linkage group. These results may not be particularly accurate, as we've only performed a preliminary Saguaro analysis. For comparison, this is how the results from a much longer analysis with default Saguaro settings would look like:<br>
-![LocalTrees_full.svg](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/LocalTrees_full.svg "LocalTrees_full.svg")<br>
+![LocalTrees_full.svg](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/images/LocalTrees_full.svg "LocalTrees_full.svg")<br>
 You'll notice that some details are different in these two images, however, the overall pattern is the same.
 
 Now that we have estimated the positions of boundaries between alignment regions that are characterized by different distance matrices, we can extract alignment blocks that are not broken up by any of the boundaries. We can do this with another Ruby script that takes both the linkage group alignment and the Saguaro results file `LocalTrees.out` as input, and cuts the alignment into blocks according to the Saguaro results.
 
-* **Download the Ruby script generate_alignments.rb** from [https://github.com/mmatschiner/Introgression-Tutorial/blob/master/generate_alignments.rb?raw=true](https://github.com/mmatschiner/Introgression-Tutorial/blob/master/generate_alignments.rb?raw=true) and save it in the directory used for this tutorial.
+* **Download the Ruby script generate_alignments.rb** from [https://rawgit.com/mmatschiner/Introgression-Tutorial/master/scripts/generate_alignments.rb](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/scripts/generate_alignments.rb) and save it in the directory used for this tutorial.
 
 * To **see some information about this script**, type
 
@@ -188,8 +188,29 @@ Now that we have estimated the positions of boundaries between alignment regions
 
 		ruby generate_alignments.rb saguaro_results/LocalTrees.out . alignment_blocks
 This will generate as many non-overlapping alignment blocks of 100000 bp as possible without including segment boundaries identified by Saguaro. A length of 100000 bp is chosen in order to obtain a manageable number of phylogenies that can be reliably inferred on a sufficiently large number of variable sites. In practice, the ideal length of alignment blocks will depend on the size of the data set and the variation between species in the data set. If you'ld like to change the length of the resulting alignment blocks, just open the script in a text editor, and change 100000 to another number on line 61.<br>
-With the settings used in the command above, the script will read file `saguaro_results/LocalTrees.out`, and will identify linkage group names based on the information in this file. In our case, it will identify "LG05" as an alignment name, and it will search for file `LG05.fasta` in the directory that's specified as the second command line argument, which here simply is `.`, the shortcut for the current directory. Output files will be written to a directory named `alignment_blocks`, which will be created inside the current directory.
+With the settings used in the command above, the script will read file `saguaro_results/LocalTrees.out`, and will identify linkage group names based on the information in this file. In our case, it will identify "LG05" as an alignment name, and it will search for file `LG05.fasta` in the directory that's specified as the second command line argument, which here simply is `.`, the shortcut for the current directory. Output files in NEXUS format ([Maddision et al. 1997](http://sysbio.oxfordjournals.org/content/46/4/590.short)) will be written to a directory named `alignment_blocks`, which will be created inside the current directory.
 
-* Find out how many files with alignment blocks were written by this script:
+* **Have a look** at the `alignment_blocks` directory. Note that the files in this directory are names according to the name of the linkage group and the first and the last position of the alignment block:
+
+		LG05_00044602_00144601.nex
+		LG05_00144602_00244601.nex
+		LG05_00244602_00344601.nex
+		LG05_00344602_00444601.nex
+		LG05_00502959_00602958.nex
+		LG05_00602959_00702958.nex
+		LG05_00747826_00847825.nex
+		...
+
+* **Find out how many files** with alignment blocks were written by this script:
 
 		ls alignment_blocks | wc -l
+		
+* Pick one of the files in this directory at random, and open it in the alignment viewer AliView to get a feeling for the size of the alignment block, as well as for its sequence variation and the amount of missing data.
+
+![AliView screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/aliview.png "AliView screenshot")
+		
+## Bayesian phylogenetic inference with BEAST 2
+
+For Bayesian phylogenetic analyses with BEAST, a sequence alignment together with all prior information is required to be in an XML format file, which is used as input for BEAST. The specification of all input information in this XML format is complicated, but fortunately one rarely has to write or edit these files by hand. Instead, the tool BEAUti, which is part of the BEAST program package, provides a convenient graphical user interface with which one can import sequence data and write the XML for BEAST.
+
+In this part of the tutorial, we will use BEAUti and BEAST to infer the phylogeny of one or more (depending on time) alignment block that should be selected at random from all alignment blocks written in the previous part of the tutorial. The idea is that the resulting phylogenies could then be shared among all participants to quickly produce a sufficient set of phylogenies for the next part of the tutorial, in which we will then use PhyloNet to infer introgression.
