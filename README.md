@@ -34,7 +34,7 @@ The following software needs to be installed on your machine in order to run all
 
 * **PhyloNet:** The latest binary jar file of the software PhyloNet can be downloaded from [http://bioinfo.cs.rice.edu/phylonet](http://bioinfo.cs.rice.edu/phylonet), which should run on all operating systems. After download, the file should be placed in a directory that can easily be accessed from the command line.
 
-## Ex. 1: Identification of genomic regions for phylogenetic inference
+## Identification of genomic regions for phylogenetic inference
 
 In this part of the tutorial, the sofware Saguaro will be used to detect boundaries between genomic regions that are characterized by different phylogenetic histories. However, for computational reasons, Saguaro does not infer these phylogenetic histories directly. Instead, the analysis performed by Saguaro is based on what the authors call "cacti", sets of distance matrices that describe how different each pair of genomes is relative to all others. For the purpose of this analysis, these cacti can be considered as proxies for phylogenetic histories, as the difference between pairs of genomes is obviously linked to their phylogenetic relatedness. However, to reconstruct local phylogenetic histories more accurately, Bayesian phylogenetic analysis will be performed subsequently for the genomic regions identified with Saguaro.
 
@@ -175,3 +175,21 @@ This will generate a vector graphic file in SVG format that will be written to t
 In this image, segments assigned to the most common cactus are drawn in dark gray, and segments assigned to other cacti are shown in red, orange, cyan, and light green, purple (in decreasing frequency). With more than six different cacti, all remaining cacti are shown in light gray. As you can see, only four cacti are common (dark gray, red, orange, and cyan). Also, you'll notice that the most frequent cactus (in dark gray) is mostly found in the center of the linage group, while other cacti dominate towards the ends of the linkage group. These results may not be particularly accurate, as we've only performed a preliminary Saguaro analysis. For comparison, this is how the results from a much longer analysis with default Saguaro settings would look like:<br>
 ![LocalTrees_full.svg](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/LocalTrees_full.svg "LocalTrees_full.svg")<br>
 You'll notice that some details are different in these two images, however, the overall pattern is the same.
+
+Now that we have estimated the positions of boundaries between alignment regions that are characterized by different distance matrices, we can extract alignment blocks that are not broken up by any of the boundaries. We can do this with another Ruby script that takes both the linkage group alignment and the Saguaro results file `LocalTrees.out` as input, and cuts the alignment into blocks according to the Saguaro results.
+
+* **Download the Ruby script generate_alignments.rb** from [https://github.com/mmatschiner/Introgression-Tutorial/blob/master/generate_alignments.rb?raw=true](https://github.com/mmatschiner/Introgression-Tutorial/blob/master/generate_alignments.rb?raw=true) and save it in the directory used for this tutorial.
+
+* To **see some information about this script**, type
+
+		ruby generate_alignments.rb
+		
+* **Run the Ruby script** to generate alignment blocks
+
+		ruby generate_alignments.rb saguaro_results/LocalTrees.out . alignment_blocks
+This will generate as many non-overlapping alignment blocks of 100000 bp as possible without including segment boundaries identified by Saguaro. A length of 100000 bp is chosen in order to obtain a manageable number of phylogenies that can be reliably inferred on a sufficiently large number of variable sites. In practice, the ideal length of alignment blocks will depend on the size of the data set and the variation between species in the data set. If you'ld like to change the length of the resulting alignment blocks, just open the script in a text editor, and change 100000 to another number on line 61.<br>
+With the settings used in the command above, the script will read file `saguaro_results/LocalTrees.out`, and will identify linkage group names based on the information in this file. In our case, it will identify "LG05" as an alignment name, and it will search for file `LG05.fasta` in the directory that's specified as the second command line argument, which here simply is `.`, the shortcut for the current directory. Output files will be written to a directory named `alignment_blocks`, which will be created inside the current directory.
+
+* Find out how many files with alignment blocks were written by this script:
+
+		ls alignment_blocks | wc -l
