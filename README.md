@@ -2,11 +2,11 @@
 
 ######A tutorial on genomic tests for introgression
 
-#### Summary
+## Summary
 
 This tutorial demonstrates how phylogenies based on whole-genome sequence data can be used to detect introgression between closely related species. The data set used in this tutorial comes from a recent study on five species of Princess cichlid fishes (Lamprologini) from Lake Tanganyika, and the methodology used here reflects the one used in this study. In brief, the analysis will include the use of a hidden Markov model to identify alignment regions that support the same topology, Bayesian phylogenetic analyses of alignment blocks within these regions, and the application of a maximum likelihood framework to detect introgression based on a set of local phylogenies.
 
-#### Background
+## Background
 
 Hybridization between closely related species, followed by back-crossing with the parental species, can lead to transfer of genetic material between established species, so-called introgression (e.g. [Mallet et al. 2016](http://onlinelibrary.wiley.com/doi/10.1002/bies.201500149/abstract)). This genetic transfer between species is an important evolutionary process that has facilitated adaptation in several species. For example, genes responsible for mimicry-related wing patterns were transferred between species of *Heliconius* butterflies ([The Heliconius Genome Consortium 2012](http://www.nature.com/nature/journal/v487/n7405/full/nature11041.html)), and Tibetans owe their altitude adaptations to the archaic human lineage of Denisovans ([Huerta-Sañchez et al. 2014](Altitude adaptation in Tibetans caused by introgression of Denisovan-like DNA)).
 
@@ -16,7 +16,7 @@ To account for all these complications, the methodology used here first aims to 
 
 In this tutorial, the above methods will be used to identify introgression between five closely related species of Princess cichlid fishes (Lamprologini) of Lake Tanganyika. Species from this group have previously been suggested to hybridize, based on mitochondrial sequences ([Salzburger et al. 2002](http://onlinelibrary.wiley.com/doi/10.1046/j.0962-1083.2001.01438.x/abstract)) and AFLP data ([Sturmbauer et al. 2010](http://www.sciencedirect.com/science/article/pii/S1055790310002897)). The sequence alignment used here is based on Illumina sequence data (with around 20x coverage) for the four lamprologine species *Neolamprologus gracilis*, *N. marunguensis*, *N. olivaceous*, and *N. pulcher*, mapped against the [BROAD institute's version 1.1 of the genome of *Oreochromis niloticus* (tilapia)](https://www.broadinstitute.org/ftp/pub/assemblies/fish/tilapia/), which was used as an outgroup. In addition, a fifth species of Lake Tanganyika Lamprologini, *N. brichardi*, as well as a second outgroup species from Lake Malawi, *Metriaclima zebra*, were included by also mapping available sequence data for these species against the genome of *Oreochromis niloticus* ([Brawand et al. 2014](http://www.nature.com/nature/journal/v513/n7518/full/nature13726.html)). Per species, consensus sequences from all reads were produced with BCFtools ([Li 2011](http://bioinformatics.oxfordjournals.org/content/27/21/2987.abstract)), VCFtools ([Danecek et al. 2011](http://bioinformatics.oxfordjournals.org/content/27/15/2156)), and Seqtk ([https://github.com/lh3/seqtk](https://github.com/lh3/seqtk)). The resulting chromosome-length alignments thus included sequence data for seven species, including two outgroups (*O. niloticus* and *M. zebra*) and five ingroup species (*N. gracilis*, *N. marunguensis*, *N. olivaceous*, *N. pulcher*, and *N. brichardi*).
 
-#### Requirements for this tutorial
+## Requirements for this tutorial
 
 The following software needs to be installed on your machine in order to run all analyses included in this tutorial:
 
@@ -34,7 +34,7 @@ The following software needs to be installed on your machine in order to run all
 
 * **PhyloNet:** The latest binary jar file of the software PhyloNet can be downloaded from [http://bioinfo.cs.rice.edu/phylonet](http://bioinfo.cs.rice.edu/phylonet), which should run on all operating systems. After download, the file should be placed in a directory that can easily be accessed from the command line.
 
-#### Identification of genomic regions for phylogenetic inference
+## Identification of genomic regions for phylogenetic inference
 
 In this part of the tutorial, the sofware Saguaro will be used to detect boundaries between genomic regions that are characterized by different phylogenetic histories. However, for computational reasons, Saguaro does not infer these phylogenetic histories directly. Instead, the analysis performed by Saguaro is based on what the authors call "cacti", sets of distance matrices that describe how different each pair of genomes is relative to all others. For the purpose of this analysis, these cacti can be considered as proxies for phylogenetic histories, as the difference between pairs of genomes is obviously linked to their phylogenetic relatedness. However, to reconstruct local phylogenetic histories more accurately, Bayesian phylogenetic analysis will be performed subsequently for the genomic regions identified with Saguaro.
 
@@ -172,6 +172,6 @@ This will generate a vector graphic file in SVG format that will be written to t
 
 * **Open the vector graphic file** `LocalTrees.svg` in Firefox or another web browser. This is what you should see:<br>
 ![LocalTrees.svg](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/LocalTrees.svg "LocalTrees.svg")<br>
-In this image, segments assigned to the most common cactus are drawn in dark gray, and segments assigned to other cacti are shown in red, orange, cyan, and light green, purple (in decreasing frequency). With more than six different cacti, all remaining cacti are shown in light gray. As you can see, only four cacti are common (dark gray, red, orange, and cyan). Also, you'll notice that the most frequent cactus (in dark gray) is mostly found in the center of the linage group, while other cacti dominate towards the ends of the linkage group. These results may not be particularly accurate, as we've only performed a preliminary Saguaro analysis. For comparison, this is how the results from a much longer analysis with default settings would look like:<br>
+In this image, segments assigned to the most common cactus are drawn in dark gray, and segments assigned to other cacti are shown in red, orange, cyan, and light green, purple (in decreasing frequency). With more than six different cacti, all remaining cacti are shown in light gray. As you can see, only four cacti are common (dark gray, red, orange, and cyan). Also, you'll notice that the most frequent cactus (in dark gray) is mostly found in the center of the linage group, while other cacti dominate towards the ends of the linkage group. These results may not be particularly accurate, as we've only performed a preliminary Saguaro analysis. For comparison, this is how the results from a much longer analysis with default Saguaro settings would look like:<br>
 ![LocalTrees_full.svg](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/LocalTrees_full.svg "LocalTrees_full.svg")<br>
 You'll notice that some details are different in these two images, however, the overall pattern is the same.
