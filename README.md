@@ -239,8 +239,23 @@ In this part of the tutorial, we will use BEAUti and BEAST to infer the phylogen
 * **Click on the field labelled with "None"** to the right of "Oreochromini\_Austrotilapiini", and select "Lognormal". By doing so, we choose that the age of "Oreochromini\_Austrotilapiini" (thus, of the common ancestor of all seven species) should be constrained with a lognormal prior distribution.<br><br>
 ![BEAUti screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/beauti5.png "BEAUti screenshot")
 
-* To specify the parameters of the lognormal distribution, click on the triangle to the left of "Oreochromini\_Austrotilapiini".
+* To specify the parameters of the lognormal distribution, **click on the triangle** to the left of "Oreochromini\_Austrotilapiini".
 
-* Set the parameters so that the lognormal distribution is characterized by a mean ("M") of 15.067, a standard deviation ("S") of 0.24, and an offset of 8.2. Also set the check box for "Mean In Real Space". The resulting prior probability distribution is then shown in the little plot at the bottom right and should look like this:<br><br>
+* **Set the parameters** so that the lognormal distribution is characterized by a mean ("M") of 15.067, a standard deviation ("S") of 0.24, and an offset of 8.2. Also set the check box for "Mean In Real Space". The resulting prior probability distribution is then shown in the little plot at the bottom right and should look like this:<br><br>
 ![BEAUti screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/beauti6.png "BEAUti screenshot")<br><br>
 The values on the x-axis of this plot can be considered to be in units of million years, thus we constrain the age of the common ancestor of the seven species (and thus the divergence time of *Oreochromis niloticus* from the other six taxa) to be most likely around 20-25 million years old. This is based on the divergence time analysis of McMahan et al. ([2013](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0071162)), in which the time line of cichlid divergences was calibrated with fossils.
+
+* Do **the same steps once more** to specify a lognormal prior distribution for the age of the common ancestor of the taxon set that we named "Haplochromini\_Lamprologini", and thus for the divergence time between Haplochromini and Lamprologini. Again based on the results of McMahan et al. ([2013](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0071162)), this prior distribution can be specified with a mean ("M") of 12.6, a standard deviation ("S") of 0.24, and an offset of 5.1. Again, make sure that the check box for "Mean In Real Space" is set and that the prior distribution in the bottom right plot looks ok.<br>We do not specify a prior distribution for the age of Lamprologini, as this should be estimated as part of the analysis. It was important, however, to specify a taxon set for Lamprologini to ensure their monophyly.
+
+* Finally, **move on to the MCMC tab** and set the chain length to 2000000. This means that 2 million steps of the Monte Carlo Markov Chain (MCMC) will be conducted to sample from the posterior distribution of all parameters included in the model, including the phylogeny. This chain length is sufficient for the purpose of this tutorial, but a far longer chain with 10-50 million steps should probably be run for a proper analysis.
+
+* **Save** all settings in an XML format file for BEAST, by clicking "Save As" in BEAUti's File menu. As file name, choose the name of the NEXUS file that was used as input for BEAUti, but replace the ending `.nex` with `.xml`.
+
+* Next, close BEAUti, and **open BEAST** instead.
+
+* **Click on "Choose File..."** and select the XML format file that you just saved with BEAUti.
+
+* Leave all other settings at their defaults, and **click "Run"** to start the Bayesian phylogenetic analysis.
+
+* While the analysis runs, you may **follow the output** given in the analysis window. This output shows some summary information at every 1000th step of the MCMC. The current step number is logged in the first column, the second column shows the posterior probability of the model with the current parameter estimates, and the third column shows the current effective sample sizes (ESS) of the posterior probability. These are a measure of how well the MCMC chain has already converged. Usually, MCMC chains can be considered as having converged when all parameters of the model have ESS values greater than 100. The last column shows the estimated run duration for 1 million MCMC steps. As we have specified that our analysis should run for 2 million MCMC steps, the estimated run duration of "1m46s/Msamples" indicates that the run will take three to four minutes:<br><br>
+![BEAST screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/beast.png "BEAST screenshot")
