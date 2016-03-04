@@ -205,7 +205,7 @@ With the settings used in the command above, the script will read file `saguaro_
 
 		ls alignment_blocks | wc -l
 		
-* Pick one of the files in this directory at random, and open it in the alignment viewer AliView just to get a feeling for the size of the alignment block, as well as for its sequence variation and the amount of missing data. You should see something like this:<br>
+* Pick one of the files in this directory at random, and open it in the alignment viewer AliView just to get a feeling for the size of the alignment block, as well as for its sequence variation and the amount of missing data. You should see something like this:<br><br>
 ![AliView screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/aliview.png "AliView screenshot")
 		
 ## Bayesian phylogenetic inference with BEAST 2
@@ -216,8 +216,15 @@ In this part of the tutorial, we will use BEAUti and BEAST to infer the phylogen
 
 * As a first step, **open BEAUti**.
 
-* In BEAUti's File menu, **click "Import Alignment"** and select again one of the alignment block NEXUS files in directory `alignment_blocks`. This is what you should see:<br>
+* In BEAUti's File menu, **click "Import Alignment"** and select again one of the alignment block NEXUS files in directory `alignment_blocks`. This is what you should see:<br><br>
 ![BEAUti screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/beauti1.png "BEAUti screenshot")
 
-* In the Site Model tab<br>
+* In the Site Model tab, **choose the general time-reversible (GTR) model** of sequence evolution, and specify that base frequencies are not estimated but instead fixed according to the empirically observed frequencies in the alignment (this is only to save run time). Also, to allow a gamma-distributed among-site rate variation, use 4 gamma categories, and specify that the shape of the gamma distribution should be estimated by setting the corresponding check box. This is how the the Site Model tab should look after these changes:<br><br>
 ![BEAUti screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/beauti2.png "BEAUti screenshot")
+
+* Now **move on to the Priors tab**.
+
+* **Click on the little "+"** symbol below all prior specifications. In the taxon set editor window that opens, define a taxon set that is called "Oreochromini_Austrotilapiini", and which contains "On" in the left-hand taxon field, and all other taxa in the taxon field to the right:<br><br>
+![BEAUti screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/beauti3.png "BEAUti screenshot")
+
+* Click OK, and do the same for another taxon set with label "Haplochromini_Lamprologini", and 
