@@ -34,7 +34,7 @@ The following software needs to be installed on your machine in order to run all
 
 * **PhyloNet:** The latest binary jar file of the software PhyloNet can be downloaded from [http://bioinfo.cs.rice.edu/phylonet](http://bioinfo.cs.rice.edu/phylonet), which should run on all operating systems. After download, the file should be placed in a directory that can easily be accessed from the command line.
 
-## Exercise 1: Identification of genomic regions for phylogenetic inference
+## Ex. 1: Identification of genomic regions for phylogenetic inference
 
 In this part of the tutorial, the sofware Saguaro will be used to detect boundaries between genomic regions that are characterized by different phylogenetic histories. However, for computational reasons, Saguaro does not infer these phylogenetic histories directly. Instead, the analysis performed by Saguaro is based on what the authors call "cacti", sets of distance matrices that describe how different each pair of genomes is relative to all others. For the purpose of this analysis, these cacti can be considered as proxies for phylogenetic histories, as the difference between pairs of genomes is obviously linked to their phylogenetic relatedness. However, to reconstruct local phylogenetic histories more accurately, Bayesian phylogenetic analysis will be performed subsequently for the genomic regions identified with Saguaro.
 
