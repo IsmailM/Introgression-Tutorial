@@ -236,5 +236,11 @@ In this part of the tutorial, we will use BEAUti and BEAST to infer the phylogen
 
 * At the bottom right of the Prior tab, **set the three check boxes for "monophyletic"**. By doing so, we fix the topology of the two outgroup taxa relative to the five ingroup taxa. This will facilitate the analysis, and is justified as the relationships of the outgroup taxa are well-investigated (e.g. [Brawand et al. 2014](http://www.nature.com/nature/journal/v513/n7518/full/nature13726.html)) and can be considered as certain.
 
-* **Click on the field labelled with "None"** to the right of "Oreochromini_Austrotilapiini".<br><br>
+* **Click on the field labelled with "None"** to the right of "Oreochromini\_Austrotilapiini", and select "Lognormal". By doing so, we choose that the age of "Oreochromini\_Austrotilapiini" (thus, of the common ancestor of all seven species) should be constrained with a lognormal prior distribution.<br><br>
 ![BEAUti screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/beauti5.png "BEAUti screenshot")
+
+* To specify the parameters of the lognormal distribution, click on the triangle to the left of "Oreochromini\_Austrotilapiini".
+
+* Set the parameters so that the lognormal distribution is characterized by a mean ("M") of 15.067, a standard deviation ("S") of 0.24, and an offset of 8.2. Also set the check box for "Mean In Real Space". The resulting prior probability distribution is then shown in the little plot at the bottom right and should look like this:<br><br>
+![BEAUti screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/beauti6.png "BEAUti screenshot")<br><br>
+The values on the x-axis of this plot can be considered to be in units of million years, thus we constrain the age of the common ancestor of the seven species (and thus the divergence time of *Oreochromis niloticus* from the other six taxa) to be most likely around 20-25 million years old. This is based on the divergence time analysis of McMahan et al. ([2013](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0071162)), in which the time line of cichlid divergences was calibrated with fossils.
