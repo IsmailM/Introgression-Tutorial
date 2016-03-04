@@ -224,12 +224,17 @@ In this part of the tutorial, we will use BEAUti and BEAST to infer the phylogen
 
 * Now **move on to the Priors tab**.
 
-* **Click on the little "+"** symbol below all prior specifications. In the taxon set editor window that opens, define a taxon set that is called "Oreochromini_Austrotilapiini". Select all seven taxon labels, and click the ">>" button to move them all to the field on the right-hand side of the window:<br><br>
+* **Click on the little "+"** symbol below all prior specifications.
+
+* In the taxon set editor window that opens, **define a taxon set that is called "Oreochromini_Austrotilapiini"**. Select all seven taxon labels, and click the ">>" button to move them all to the field on the right-hand side of the window:<br><br>
 ![BEAUti screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/beauti3.png "BEAUti screenshot")
 
-* Click OK, and **do the same for another taxon set** with label "Haplochromini_Lamprologini", in which all taxa except "On" are placed in the field on the right-hand side. Click OK again.
+* Click OK, and **do the same for another taxon set with label "Haplochromini_Lamprologini"**, in which all taxa except "On" are placed in the field on the right-hand side. Click OK again.
 
-* **Create a third taxon set**, with label "Lamprologini", which includes the five *Neolamprologus* species Br, Gr, Ma, Ol, and Pu in the field on the right-hand side. Click OK. The Priors tab should now look like this:<br><br>
+* **Create a third taxon set, with label "Lamprologini"**, which includes the five *Neolamprologus* species Br, Gr, Ma, Ol, and Pu in the field on the right-hand side. Click OK. The Priors tab should now look like this:<br><br>
 ![BEAUti screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/beauti4.png "BEAUti screenshot")
 
-* 
+* At the bottom right of the Prior tab, **set the three check boxes for "monophyletic"**. By doing so, we fix the topology of the two outgroup taxa relative to the five ingroup taxa. This will facilitate the analysis, and is justified as the relationships of the outgroup taxa are well-investigated (e.g. [Brawand et al. 2014](http://www.nature.com/nature/journal/v513/n7518/full/nature13726.html)) and can be considered as certain.
+
+* **Click on the field labelled with "None"** to the right of "Oreochromini_Austrotilapiini".<br><br>
+![BEAUti screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/beauti5.png "BEAUti screenshot")
