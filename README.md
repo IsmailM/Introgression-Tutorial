@@ -171,4 +171,4 @@ If you see this short help text, everything seems fine:
 This will generate a vector graphic file in SVG format that will be written to the same directory in which `LocalTrees.out` is placed (i.e. `saguaro_results`), and it will be named `LocalTrees.svg`.
 
 * Open the vector graphic file `LocalTrees.svg` in Firefox or another web browser. This is what you should see:<br>
-![LocalTrees.svg](LocalTrees.svg "LocalTrees.svg")
+![LocalTrees.svg](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/LocalTrees.svg "LocalTrees.svg")
