@@ -216,5 +216,6 @@ In this part of the tutorial, we will use BEAUti and BEAST to infer the phylogen
 
 * As a first step, **open BEAUti**.
 
-* In BEAUti's File menu, **click "Import Alignment"** and select again one of the alignment block NEXUS files in directory `alignment_blocks`.<br>
+* In BEAUti's File menu, **click "Import Alignment"** and select again one of the alignment block NEXUS files in directory `alignment_blocks`. This is what you should see:<br>
 ![BEAUti screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/beauti1.png "BEAUti screenshot")
+
