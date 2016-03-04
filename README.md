@@ -227,5 +227,9 @@ In this part of the tutorial, we will use BEAUti and BEAST to infer the phylogen
 * **Click on the little "+"** symbol below all prior specifications. In the taxon set editor window that opens, define a taxon set that is called "Oreochromini_Austrotilapiini". Select all seven taxon labels, and click the ">>" button to move them all to the field on the right-hand side of the window:<br><br>
 ![BEAUti screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/beauti3.png "BEAUti screenshot")
 
-* Click OK, and **do the same for another taxon set** with label "Haplochromini_Lamprologini", in which all taxa except "On" are placed in the field on the right-hand side. Click OK again. The Priors tab should now look like this:<br><br>
+* Click OK, and **do the same for another taxon set** with label "Haplochromini_Lamprologini", in which all taxa except "On" are placed in the field on the right-hand side. Click OK again.
+
+* **Create a third taxon set**, with label "Lamprologini", which includes the five *Neolamprologus* species Br, Gr, Ma, Ol, and Pu in the field on the right-hand side. Click OK. The Priors tab should now look like this:<br><br>
 ![BEAUti screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/beauti4.png "BEAUti screenshot")
+
+* 
