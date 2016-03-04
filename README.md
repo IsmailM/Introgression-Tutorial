@@ -148,3 +148,27 @@ You should see output like this:
  		cat saguaro_results/LocalTrees.out | grep length | wc -l
  		
 * In order to visualize segment boundaries and the cacti assigned to segments, **download the Ruby script paint_chromosomes.rb** from [https://github.com/mmatschiner/Introgression-Tutorial/blob/master/paint_chromosomes.rb?raw=true](https://github.com/mmatschiner/Introgression-Tutorial/blob/master/paint_chromosomes.rb?raw=true), and save it in the directory that you're using for this tutorial.
+
+* **See whether the script can run** on your machine by typing
+
+		ruby paint_chromosomes.rb
+If you see this short help text, everything seems fine:
+
+		paint_chromosomes.rb
+
+		This script uses output from the software Saguaro to paint
+		chromosomes according to Saguaro cacti. The output will be
+		written in svg format.
+
+		This script should be run e.g. with
+		ruby paint_chromosomes.rb LocalTrees.out LocalTrees.svg
+		where 'LocalTrees.out' should be replaced with the actual path
+		to the Saguaro output file.
+
+* Now run the script with your Saguaro output file
+
+		ruby paint_chromosomes.rb saguaro_results/LocalTrees.out
+This will generate a vector graphic file in SVG format that will be written to the same directory in which `LocalTrees.out` is placed (i.e. `saguaro_results`), and it will be named `LocalTrees.svg`.
+
+* Open the vector graphic file `LocalTrees.svg` in Firefox or another web browser. This is what you should see:<br>
+![LocalTrees.svg](LocalTrees.svg "LocalTrees.svg")
