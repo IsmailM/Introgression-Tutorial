@@ -312,4 +312,8 @@ While it is sometimes useful to work with the entire posterior tree distribution
 
 * **Open the summary tree file** with ending `.tre` in FigTree.
 
-* In the left-hand panel, set the check box for "Node Labels", click on the triangle to the left of it, and select "posterior" as the option for display, as shown below:
+* In the left-hand panel, **set the check box for "Node Labels"**, click on the triangle to the left of it, and select "posterior" as the option for display, as shown below:<br><br>
+![FigTree screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/figtree2.png "FigTree screenshot")<br><br>
+As a result, you should see the posterior probabilities for monophyly at each node. If most of these are very close to 1 (as in the above example), BEAST has found very strong support for the tree topology of the alignment block.
+
+* To **see the divergence time estimates**, you can either set the node labels to display "Node ages" or "height_95%_HPD" instead of "posterior", or you could visualize the divergence time uncertainty by setting the check box for "Node bars".
