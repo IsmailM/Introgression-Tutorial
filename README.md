@@ -34,6 +34,8 @@ The following software needs to be installed on your machine in order to run all
 
 * **Tracer:** Run convergence of BEAST analyses can be assessed most easily with the software Tracer. Even though Tracer was originally developed together with BEAST by the same authors, it is not part of the BEAST package but comes as a separate download and is available from [http://tree.bio.ed.ac.uk/software/tracer/](http://tree.bio.ed.ac.uk/software/tracer/).
 
+* **FigTree:** Another tool of the BEAST family that comes as a separate download is the tree viewing software FigTree. It can be downloaded from [http://tree.bio.ed.ac.uk/software/figtree/](http://tree.bio.ed.ac.uk/software/figtree/).
+
 * **PhyloNet:** The latest binary jar file of the software PhyloNet can be downloaded from [http://bioinfo.cs.rice.edu/phylonet](http://bioinfo.cs.rice.edu/phylonet), which should run on all operating systems. After download, the file should be placed in a directory that can easily be accessed from the command line.
 
 ## Identification of genomic regions for phylogenetic inference
@@ -276,5 +278,38 @@ The values on the x-axis of this plot can be considered to be in units of millio
 
 BEAST should have written a file with ending `.log`, and a file with ending `.trees` to the directory, in which the XML format input file for BEAST was placed.
 
-* Find the BEAST output file with ending `.log`, and open it in Tracer. You should see something like this:<br><br>
-![TRACER screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/tracer1.png "TRACER screenshot")
+* Find the BEAST output file with ending `.log`, and **open it in Tracer**. You should see something like this:<br><br>
+![TRACER screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/tracer1.png "TRACER screenshot")<br><br>
+At the top left of this window, you'll see which file is currently loaded, and how many MCMC steps ("states") this file includes. By default, the first 10% of the MCMC chain are considered as burn-in, and are not used to calculate posterior parameter estimates.<br>
+In the bottom-left panel, you'll see a summary for the overall posterior probability, likelihood, and prior probability of the model, followed by all parameters of the model. Mean estimates and ESS values are given in columns 2 and 3 of bottom-left panel. In example shown above, the mean estimate for the age of the tree is around 26 million years, as listed in the rows for "TreeHeight" and "mrcatime(Oreochromini_Austrotilapiini)" (as we included all taxa in the latter taxon set, these two parameter are necessarily identical). Also, this age estimate is not particularly surprising, as we had constrained the divergence of *Oreochromis niloticus* to be roughly of this age. The mean estimate for the age of Lamprologini (around 3 million years for this alignment block), listed in the row for "mrcatime(Lamprologini)", is more interesting as it was not constrained with a prior distribution. ESS values marked in red or orange indicate parameters with poor convergence. In the above example, this is the case only for the parameters of the GTR model of sequence evolution. Nevertheless, as all ESS values are close to or above 100, we can consider this analysis as sufficiently converged for the purpose of this tutorial.<br>
+More detailed information is given in the panel on the right-hand side, for   the parameter currently selected in the bottom-left panel.
+
+Besides the ESS values, visually inspecting how the parameter estimates have changed over the course of the analysis can also help to assess run convergence.
+
+* To see the trace of the parameter that is currently selected in the bottom-left panel, click on "Trace", at the top of the panel on the right-hand side:<br><br>
+![TRACER screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/tracer2.png "TRACER screenshot")<br><br>This is what the authors call a "hairy caterpillar", which is a good sign of convergence. Apparently, the estimates for the posterior probability have gone up and down between -169025 and -169015 (these are log values), but this range seems to represent a plateau that was reached within the first 50000 MCMC steps (burn-in steps at the left of the plot are shown in light gray).
+
+#### Generating a summary tree for the BEAST analysis
+
+* Find the BEAST output file with ending `.trees` and **open it in FigTree**. You'll see something like the below image, in which the message "Current Tree: 1/2001" in the left-hand panel indicates that we're just seeing one out of 2001 trees. These 2001 trees represent the posterior distribution of tree estimates, which were sampled at every 1000th step of the 2 million-step chain (plus the very first tree is also included, thus the total is 2001 trees). By repeatedly clicking the right arrow button above "Prev/Next" at the top right of the window, you can browse through the 2001 trees to see how the estimated branch lengths and topology have changed through the course of the analysis.<br><br>
+![FigTree screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/figtree1.png "FigTree screenshot")
+
+While it is sometimes useful to work with the entire posterior tree distribution (thus all 2001 trees in this case), we will need a single summary tree for the phylogeny of the alignment block, which will later be used as input for PhyloNet, together with summary trees for other alignment blocks.
+
+* To generate a summary tree for the posterior tree distribution, **open the software TreeAnnotator**.
+
+* In the TreeAnnotator window, **specify 10 as the burn-in percentage**.
+
+* **Make sure that "Maximum clade credibility tree" is chosen** as the target tree type, this is the type of summary tree that will be produced (for more information, you may want to read Heled & Bouckaert [2013](http://bmcevolbiol.biomedcentral.com/articles/10.1186/1471-2148-13-221)).
+
+* **Choose "Mean heights"** as node heights.
+
+* **Click the first "Choose File..." button** to select the posterior distribution file with ending .trees as input.
+
+* To choose an output file name, click the second "Choose File..." button, and select the same name as the input file, but replace the ending `.trees` with `.tre`.
+
+* **Click "Run"**. TreeAnnotator should finish very quickly, and can then be closed.
+
+* **Open the summary tree file** with ending `.tre` in FigTree.
+
+* In the left-hand panel, set the check box for "Node Labels", click on the triangle to the left of it, and select "posterior" as the option for display, as shown below:
