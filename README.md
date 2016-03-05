@@ -316,4 +316,10 @@ While it is sometimes useful to work with the entire posterior tree distribution
 ![FigTree screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/figtree2.png "FigTree screenshot")<br><br>
 As a result, you should see the posterior probabilities for monophyly at each node. If most of these are very close to 1 (as in the above example), BEAST has found very strong support for the tree topology of the alignment block.
 
-* To **see the divergence time estimates**, you can either set the node labels to display "Node ages" or "height_95%_HPD" instead of "posterior", or you could visualize the divergence time uncertainty by setting the check box for "Node bars".
+* To **see the divergence time estimates**, you can either set the node labels to display "Node ages" or "height\_95%'_HPD" instead of "posterior", or you could visualize the divergence time uncertainty by setting the check box for "Node bars".
+
+* If you have the time, **you could repeat the Bayesian phylogenetic analysis** for additional randomly selected alignment blocks. You could either do this manually as described above, or read the next section to learn how a large number of BEAST analyses can be prepared and executed at the same time.
+
+## Automating phylogenetic analyses with BEAST 2
+
+...to be written
