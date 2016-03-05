@@ -18,7 +18,8 @@ This tutorial demonstrates how phylogenies based on whole-genome sequence data c
 	* [Generating a summary tree for the BEAST analysis](#generating)
 * [Automating phylogenetic analyses with BEAST 2](#automating)
 
-## Background<a name="background"></a>
+<a name="background"></a>
+## Background
 
 Hybridization between closely related species, followed by back-crossing with the parental species, can lead to transfer of genetic material between established species, so-called introgression (e.g. [Mallet et al. 2016](http://onlinelibrary.wiley.com/doi/10.1002/bies.201500149/abstract)). This genetic transfer between species is an important evolutionary process that has facilitated adaptation in several species. For example, genes responsible for mimicry-related wing patterns were transferred between species of *Heliconius* butterflies ([The Heliconius Genome Consortium 2012](http://www.nature.com/nature/journal/v487/n7405/full/nature11041.html)), and Tibetans owe their altitude adaptations to the archaic human lineage of Denisovans ([Huerta-Sañchez et al. 2014](Altitude adaptation in Tibetans caused by introgression of Denisovan-like DNA)).
 
@@ -28,7 +29,8 @@ To account for all these complications, the methodology used here first aims to 
 
 In this tutorial, the above methods will be used to identify introgression between five closely related species of Princess cichlid fishes (Lamprologini) of Lake Tanganyika. Species from this group have previously been suggested to hybridize, based on mitochondrial sequences ([Salzburger et al. 2002](http://onlinelibrary.wiley.com/doi/10.1046/j.0962-1083.2001.01438.x/abstract)) and AFLP data ([Sturmbauer et al. 2010](http://www.sciencedirect.com/science/article/pii/S1055790310002897)). The sequence alignment used here is based on Illumina sequence data (with around 20x coverage) for the four lamprologine species *Neolamprologus gracilis*, *N. marunguensis*, *N. olivaceous*, and *N. pulcher*, mapped against the [BROAD institute's version 1.1 of the genome of *Oreochromis niloticus* (tilapia)](https://www.broadinstitute.org/ftp/pub/assemblies/fish/tilapia/), which was used as an outgroup. In addition, a fifth species of Lake Tanganyika Lamprologini, *N. brichardi*, as well as a second outgroup species from Lake Malawi, *Metriaclima zebra*, were included by also mapping available sequence data for these species against the genome of *Oreochromis niloticus* ([Brawand et al. 2014](http://www.nature.com/nature/journal/v513/n7518/full/nature13726.html)). Per species, consensus sequences from all reads were produced with BCFtools ([Li 2011](http://bioinformatics.oxfordjournals.org/content/27/21/2987.abstract)), VCFtools ([Danecek et al. 2011](http://bioinformatics.oxfordjournals.org/content/27/15/2156)), and Seqtk ([https://github.com/lh3/seqtk](https://github.com/lh3/seqtk)). The resulting chromosome-length alignments thus included sequence data for seven species, including two outgroups (*O. niloticus* and *M. zebra*) and five ingroup species (*N. gracilis*, *N. marunguensis*, *N. olivaceous*, *N. pulcher*, and *N. brichardi*).
 
-## Requirements for this tutorial<a name="requirements"></a>
+<a name="requirements"></a>
+## Requirements for this tutorial
 
 The following software needs to be installed on your machine in order to run all analyses included in this tutorial:
 
