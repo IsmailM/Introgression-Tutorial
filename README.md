@@ -6,7 +6,19 @@
 
 This tutorial demonstrates how phylogenies based on whole-genome sequence data can be used to detect introgression between closely related species. The data set used in this tutorial comes from a recent study on five species of Princess cichlid fishes (Lamprologini) from Lake Tanganyika, and the methodology used here reflects the one used in this study. In brief, the analysis will include the use of a hidden Markov model to identify alignment regions that support the same topology, Bayesian phylogenetic analyses of alignment blocks within these regions, and the application of a maximum likelihood framework to detect introgression based on a set of local phylogenies.
 
-## Background
+## Table of contents
+
+- [Background](#background)
+- [Requirements for this tutorial](#requirements)
+- [Identification of genomic regions for phylogenetic inference](#identification)
+- [Bayesian phylogenetic inference with BEAST 2](#beast2)
+	- [Preparing the BEAST analysis](#preparing)
+	* [Running the BEAST analysis](#running)
+	* [Assessing convergence of the BEAST analysis](#assessing)
+	* [Generating a summary tree for the BEAST analysis](#generating)
+* [Automating phylogenetic analyses with BEAST 2](#automating)
+
+## Background<a name="background"></a>
 
 Hybridization between closely related species, followed by back-crossing with the parental species, can lead to transfer of genetic material between established species, so-called introgression (e.g. [Mallet et al. 2016](http://onlinelibrary.wiley.com/doi/10.1002/bies.201500149/abstract)). This genetic transfer between species is an important evolutionary process that has facilitated adaptation in several species. For example, genes responsible for mimicry-related wing patterns were transferred between species of *Heliconius* butterflies ([The Heliconius Genome Consortium 2012](http://www.nature.com/nature/journal/v487/n7405/full/nature11041.html)), and Tibetans owe their altitude adaptations to the archaic human lineage of Denisovans ([Huerta-Sañchez et al. 2014](Altitude adaptation in Tibetans caused by introgression of Denisovan-like DNA)).
 
@@ -16,7 +28,7 @@ To account for all these complications, the methodology used here first aims to 
 
 In this tutorial, the above methods will be used to identify introgression between five closely related species of Princess cichlid fishes (Lamprologini) of Lake Tanganyika. Species from this group have previously been suggested to hybridize, based on mitochondrial sequences ([Salzburger et al. 2002](http://onlinelibrary.wiley.com/doi/10.1046/j.0962-1083.2001.01438.x/abstract)) and AFLP data ([Sturmbauer et al. 2010](http://www.sciencedirect.com/science/article/pii/S1055790310002897)). The sequence alignment used here is based on Illumina sequence data (with around 20x coverage) for the four lamprologine species *Neolamprologus gracilis*, *N. marunguensis*, *N. olivaceous*, and *N. pulcher*, mapped against the [BROAD institute's version 1.1 of the genome of *Oreochromis niloticus* (tilapia)](https://www.broadinstitute.org/ftp/pub/assemblies/fish/tilapia/), which was used as an outgroup. In addition, a fifth species of Lake Tanganyika Lamprologini, *N. brichardi*, as well as a second outgroup species from Lake Malawi, *Metriaclima zebra*, were included by also mapping available sequence data for these species against the genome of *Oreochromis niloticus* ([Brawand et al. 2014](http://www.nature.com/nature/journal/v513/n7518/full/nature13726.html)). Per species, consensus sequences from all reads were produced with BCFtools ([Li 2011](http://bioinformatics.oxfordjournals.org/content/27/21/2987.abstract)), VCFtools ([Danecek et al. 2011](http://bioinformatics.oxfordjournals.org/content/27/15/2156)), and Seqtk ([https://github.com/lh3/seqtk](https://github.com/lh3/seqtk)). The resulting chromosome-length alignments thus included sequence data for seven species, including two outgroups (*O. niloticus* and *M. zebra*) and five ingroup species (*N. gracilis*, *N. marunguensis*, *N. olivaceous*, *N. pulcher*, and *N. brichardi*).
 
-## Requirements for this tutorial
+## Requirements for this tutorial<a name="requirements"></a>
 
 The following software needs to be installed on your machine in order to run all analyses included in this tutorial:
 
@@ -38,7 +50,7 @@ The following software needs to be installed on your machine in order to run all
 
 * **PhyloNet:** The latest binary jar file of the software PhyloNet can be downloaded from [http://bioinfo.cs.rice.edu/phylonet](http://bioinfo.cs.rice.edu/phylonet), which should run on all operating systems. After download, the file should be placed in a directory that can easily be accessed from the command line.
 
-## Identification of genomic regions for phylogenetic inference
+## Identification of genomic regions for phylogenetic inference<a name="identification"></a>
 
 In this part of the tutorial, the sofware Saguaro will be used to detect boundaries between genomic regions that are characterized by different phylogenetic histories. However, for computational reasons, Saguaro does not infer these phylogenetic histories directly. Instead, the analysis performed by Saguaro is based on what the authors call "cacti", sets of distance matrices that describe how different each pair of genomes is relative to all others. For the purpose of this analysis, these cacti can be considered as proxies for phylogenetic histories, as the difference between pairs of genomes is obviously linked to their phylogenetic relatedness. However, to reconstruct local phylogenetic histories more accurately, Bayesian phylogenetic analysis will be performed subsequently for the genomic regions identified with Saguaro.
 
@@ -212,7 +224,7 @@ With the settings used in the command above, the script will read file `saguaro_
 * Pick one of the files in this directory at random, and open it in the alignment viewer AliView just to get a feeling for the size of the alignment block, as well as for its sequence variation and the amount of missing data. You should see something like this:<br><br>
 ![AliView screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/aliview.png "AliView screenshot")
 		
-## Bayesian phylogenetic inference with BEAST 2
+## Bayesian phylogenetic inference with BEAST 2<a name="beast2"></a>
 
 For Bayesian phylogenetic analyses with BEAST, a sequence alignment together with all prior information is required to be in an XML format file, which is used as input for BEAST. The specification of all input information in this XML format is complicated, but fortunately one rarely has to write or edit these files by hand. Instead, the tool BEAUti, which is part of the BEAST program package, provides a convenient graphical user interface with which one can import sequence data and write the XML for BEAST.
 
@@ -222,7 +234,7 @@ While we here use BEAST only for very simple phylogenetic analyses, the software
 
 If you know the basics of BEAST and its XML format already, and you would rather like to learn how to automate BEAST analysis for a large number of alignments, feel free to skip this part and continue below, at [Automating phylogenetic analyses with BEAST 2](#automating).
 
-#### Preparing the BEAST analysis
+#### Preparing the BEAST analysis<a name="preparing"></a>
 
 * As a first step, **open BEAUti**.
 
@@ -263,7 +275,7 @@ The values on the x-axis of this plot can be considered to be in units of millio
 
 * Take a moment to **look through the XML format file**, to familiarize yourself with the specifications. Note that the sequence alignment is given at the top of the file with `<data ...>...</data>`, followed by several definitions of shortcuts for mathematical distributions, in elements that start and end with `<map>...</map>`. Everything else is defined within the `<run ...>...</run>` element, including the chain length on the same line as `<run ...>`, the `<state ...>...</state>` element in which all model parameters are introduced, and the `<init ...>...</init>` element which tells BEAST how to initialize the tree for the very first MCMC step. All priors, including the taxon sets, as well as the way to calculate the likelihood are listed inside the element that starts with `<distribution id=posterior ...>` and ends on roughly line 155. Below this, the `<operator .../>` elements specify how new parameter values should be chosen at each step of the MCMC, and the `<logger ...>...</logger>` elements tell BEAST which information should be logged to files or to the screen output.
 
-#### Running the BEAST analysis
+#### Running the BEAST analysis<a name="running"></a>
 
 * Next, **open the software BEAST**.
 
@@ -276,7 +288,7 @@ The values on the x-axis of this plot can be considered to be in units of millio
 
 * Once the analysis has finished, **close BEAST**.
 
-#### Assessing convergence of the BEAST analysis
+#### Assessing convergence of the BEAST analysis<a name="assessing"></a>
 
 BEAST should have written a file with ending `.log`, and a file with ending `.trees` to the directory, in which the XML format input file for BEAST was placed.
 
@@ -291,7 +303,7 @@ Besides the ESS values, visually inspecting how the parameter estimates have cha
 * To see the trace of the parameter that is currently selected in the bottom-left panel, click on "Trace", at the top of the panel on the right-hand side:<br><br>
 ![TRACER screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/tracer2.png "TRACER screenshot")<br><br>This is what the authors call a "hairy caterpillar", which is a good sign of convergence. Apparently, the estimates for the posterior probability have gone up and down between -169335 and -169325 (these are log values), but this range seems to represent a plateau that was reached within the first 50000 MCMC steps (burn-in steps at the left of the plot are shown in light gray).
 
-#### Generating a summary tree for the BEAST analysis
+#### Generating a summary tree for the BEAST analysis<a name="generating"></a>
 
 * Find the BEAST output file with ending `.trees` and **open it in FigTree**. You'll see something like the below image, in which the message "Current Tree: 1/2001" in the left-hand panel indicates that we're just seeing one out of 2001 trees. These 2001 trees represent the posterior distribution of tree estimates, which were sampled at every 1000th step of the 2 million-step chain (plus the very first tree is also included, thus the total is 2001 trees). By repeatedly clicking the right arrow button above "Prev/Next" at the top right of the window, you can browse through the 2001 trees to see how the estimated branch lengths and topology have changed through the course of the analysis.<br><br>
 ![FigTree screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/figtree1.png "FigTree screenshot")
