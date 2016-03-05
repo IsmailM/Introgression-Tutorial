@@ -52,7 +52,8 @@ The following software needs to be installed on your machine in order to run all
 
 * **PhyloNet:** The latest binary jar file of the software PhyloNet can be downloaded from [http://bioinfo.cs.rice.edu/phylonet](http://bioinfo.cs.rice.edu/phylonet), which should run on all operating systems. After download, the file should be placed in a directory that can easily be accessed from the command line.
 
-## Identification of genomic regions for phylogenetic inference<a name="identification"></a>
+<a name="identification"></a>
+## Identification of genomic regions for phylogenetic inference
 
 In this part of the tutorial, the sofware Saguaro will be used to detect boundaries between genomic regions that are characterized by different phylogenetic histories. However, for computational reasons, Saguaro does not infer these phylogenetic histories directly. Instead, the analysis performed by Saguaro is based on what the authors call "cacti", sets of distance matrices that describe how different each pair of genomes is relative to all others. For the purpose of this analysis, these cacti can be considered as proxies for phylogenetic histories, as the difference between pairs of genomes is obviously linked to their phylogenetic relatedness. However, to reconstruct local phylogenetic histories more accurately, Bayesian phylogenetic analysis will be performed subsequently for the genomic regions identified with Saguaro.
 
@@ -225,8 +226,9 @@ With the settings used in the command above, the script will read file `saguaro_
 		
 * Pick one of the files in this directory at random, and open it in the alignment viewer AliView just to get a feeling for the size of the alignment block, as well as for its sequence variation and the amount of missing data. You should see something like this:<br><br>
 ![AliView screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/aliview.png "AliView screenshot")
-		
-## Bayesian phylogenetic inference with BEAST 2<a name="beast2"></a>
+
+<a name="beast2"></a>
+## Bayesian phylogenetic inference with BEAST 2
 
 For Bayesian phylogenetic analyses with BEAST, a sequence alignment together with all prior information is required to be in an XML format file, which is used as input for BEAST. The specification of all input information in this XML format is complicated, but fortunately one rarely has to write or edit these files by hand. Instead, the tool BEAUti, which is part of the BEAST program package, provides a convenient graphical user interface with which one can import sequence data and write the XML for BEAST.
 
@@ -236,7 +238,8 @@ While we here use BEAST only for very simple phylogenetic analyses, the software
 
 If you know the basics of BEAST and its XML format already, and you would rather like to learn how to automate BEAST analysis for a large number of alignments, feel free to skip this part and continue below, at [Automating phylogenetic analyses with BEAST 2](#automating).
 
-#### Preparing the BEAST analysis<a name="preparing"></a>
+<a name="preparing"></a>
+#### Preparing the BEAST analysis
 
 * As a first step, **open BEAUti**.
 
@@ -277,7 +280,8 @@ The values on the x-axis of this plot can be considered to be in units of millio
 
 * Take a moment to **look through the XML format file**, to familiarize yourself with the specifications. Note that the sequence alignment is given at the top of the file with `<data ...>...</data>`, followed by several definitions of shortcuts for mathematical distributions, in elements that start and end with `<map>...</map>`. Everything else is defined within the `<run ...>...</run>` element, including the chain length on the same line as `<run ...>`, the `<state ...>...</state>` element in which all model parameters are introduced, and the `<init ...>...</init>` element which tells BEAST how to initialize the tree for the very first MCMC step. All priors, including the taxon sets, as well as the way to calculate the likelihood are listed inside the element that starts with `<distribution id=posterior ...>` and ends on roughly line 155. Below this, the `<operator .../>` elements specify how new parameter values should be chosen at each step of the MCMC, and the `<logger ...>...</logger>` elements tell BEAST which information should be logged to files or to the screen output.
 
-#### Running the BEAST analysis<a name="running"></a>
+<a name="running"></a>
+#### Running the BEAST analysis
 
 * Next, **open the software BEAST**.
 
@@ -290,7 +294,8 @@ The values on the x-axis of this plot can be considered to be in units of millio
 
 * Once the analysis has finished, **close BEAST**.
 
-#### Assessing convergence of the BEAST analysis<a name="assessing"></a>
+<a name="assessing"></a>
+#### Assessing convergence of the BEAST analysis
 
 BEAST should have written a file with ending `.log`, and a file with ending `.trees` to the directory, in which the XML format input file for BEAST was placed.
 
@@ -305,7 +310,8 @@ Besides the ESS values, visually inspecting how the parameter estimates have cha
 * To see the trace of the parameter that is currently selected in the bottom-left panel, click on "Trace", at the top of the panel on the right-hand side:<br><br>
 ![TRACER screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/tracer2.png "TRACER screenshot")<br><br>This is what the authors call a "hairy caterpillar", which is a good sign of convergence. Apparently, the estimates for the posterior probability have gone up and down between -169335 and -169325 (these are log values), but this range seems to represent a plateau that was reached within the first 50000 MCMC steps (burn-in steps at the left of the plot are shown in light gray).
 
-#### Generating a summary tree for the BEAST analysis<a name="generating"></a>
+<a name="generating"></a>
+#### Generating a summary tree for the BEAST analysis
 
 * Find the BEAST output file with ending `.trees` and **open it in FigTree**. You'll see something like the below image, in which the message "Current Tree: 1/2001" in the left-hand panel indicates that we're just seeing one out of 2001 trees. These 2001 trees represent the posterior distribution of tree estimates, which were sampled at every 1000th step of the 2 million-step chain (plus the very first tree is also included, thus the total is 2001 trees). By repeatedly clicking the right arrow button above "Prev/Next" at the top right of the window, you can browse through the 2001 trees to see how the estimated branch lengths and topology have changed through the course of the analysis.<br><br>
 ![FigTree screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/figtree1.png "FigTree screenshot")
@@ -336,6 +342,7 @@ As a result, you should see the posterior probabilities for monophyly at each no
 
 * If you have the time, **you could repeat the Bayesian phylogenetic analysis** for additional randomly selected alignment blocks. You could either do this manually as described above, or read the next section to learn how a large number of BEAST analyses can be prepared and executed at the same time.
 
-## Automating phylogenetic analyses with BEAST 2<a name="automating"></a>
+<a name="automating"></a>
+## Automating phylogenetic analyses with BEAST 2
 
 ...to be written
