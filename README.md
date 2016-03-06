@@ -358,7 +358,7 @@ We will need to download two files to run this part of the tutorial, the Ruby sc
 
 * Download the Ruby script beauti.rb from [https://rawgit.com/mmatschiner/Introgression-Tutorial/master/scripts/beauti.rb](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/scripts/beauti.rb) and place it in the directory that you use for this tutorial.
 
-* Download the file with the XML code for the two age constraints from [https://rawgit.com/mmatschiner/Introgression-Tutorial/master/scripts/constraints.xml](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/scripts/constraints.xml) and place it in the same directory.
+* Download the file with the XML code for the two age constraints from [https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/scripts/constraints.xml](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/scripts/constraints.xml) and place it in the same directory.
 
 <a name="phylonet"></a>
 ## Testing hypotheses of introgression with PhyloNet
