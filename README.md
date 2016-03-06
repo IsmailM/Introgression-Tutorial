@@ -8,15 +8,17 @@ This tutorial demonstrates how phylogenies based on whole-genome sequence data c
 
 ## Table of contents
 
-- [Background](#background)
-- [Requirements for this tutorial](#requirements)
-- [Identification of genomic regions for phylogenetic inference](#identification)
-- [Bayesian phylogenetic inference with BEAST 2](#beast2)
-	- [Preparing the BEAST analysis](#preparing)
+* [Background](#background)
+* [Requirements for this tutorial](#requirements)
+* [Identification of genomic regions for phylogenetic inference](#identification)
+* [Bayesian phylogenetic inference with BEAST 2](#beast2)
+	* [Preparing the BEAST analysis](#preparing)
 	* [Running the BEAST analysis](#running)
 	* [Assessing convergence of the BEAST analysis](#assessing)
 	* [Generating a summary tree for the BEAST analysis](#generating)
 * [Automating phylogenetic analyses with BEAST 2](#automating)
+	* [Automatically generating input files for BEAST](#autogenerating)
+* [Testing hypotheses of introgression with PhyloNet](#phylonet)
 
 <a name="background"></a>
 ## Background
@@ -345,4 +347,14 @@ As a result, you should see the posterior probabilities for monophyly at each no
 <a name="automating"></a>
 ## Automating phylogenetic analyses with BEAST 2
 
-...to be written
+Obviously, for hundreds or thousands of alignment blocks, it would be preferable not to create all XMLs manually through BEAUti, run the XML files all one by one in BEAST, and generate each summary tree individually. Instead, it would be far more convenient to generate all XMLs automatically, run all BEAST analyses in parallel, and summarize all trees at once. This type of automation is arguably much easier for phylogenetic analyses with other tools such as RAxML, where all settings can be specified on the command line directly. Nevertheless, it is still possible with BEAST, and this part of the tutorial is going to demonstrate  how it works. We are going to use another Ruby script called beauti.rb to generate XML files for all alignment blocks, and we will start BEAST and TreeAnnotator from the command line, which allows to place these commands in a loop to execute them successively or in parallel.
+
+As this part of the tutorial makes heavy use of the command line, it's probably more likely to work on Mac or Linux systems, but it might also work fine on Windows. It is optional and could be skipped if you're behind other participants, or more interested in the next part of the tutorial, [Testing hypothesis of introgression with PhyloNet](#phylonet).
+
+<a name="autogenerating></a>
+#### Automatically generating input files for BEAST
+
+<a name="phylonet"></a>
+## Testing hypotheses of introgression with PhyloNet
+
+...to be written.
