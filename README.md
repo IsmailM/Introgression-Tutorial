@@ -351,8 +351,14 @@ Obviously, for hundreds or thousands of alignment blocks, it would be preferable
 
 As this part of the tutorial makes heavy use of the command line, it's probably more likely to work on Mac or Linux systems, but it might also work fine on Windows. It is optional and could be skipped if you're behind other participants, or more interested in the next part of the tutorial, [Testing hypothesis of introgression with PhyloNet](#phylonet).
 
-<a name="autogenerating></a>
+<a name="autogenerating"></a>
 #### Automatically generating input files for BEAST
+
+We will need to download two files to run this part of the tutorial, the Ruby script beauti.rb and a block of XML code, which will be inserted into all XML format files written by beauti.rb. This block of code specifies the age constraints for the taxon set that we labelled "Oreochromini\_Austrotilapiini" above (i.e. all seven species and thus the divergence between *Oreochromis niloticus* and all other species), and for the taxon set that we named "Haplochromini\_Lamprologini" (i.e. the divergence between *Metriaclima zebra* and the five *Neolamprologus* species).
+
+* Download the Ruby script beauti.rb from [https://rawgit.com/mmatschiner/Introgression-Tutorial/master/scripts/beauti.rb](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/scripts/beauti.rb) and place it in the directory that you use for this tutorial.
+
+* Download the file with the XML code for the two age constraints from [https://rawgit.com/mmatschiner/Introgression-Tutorial/master/scripts/constraints.xml](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/scripts/constraints.xml) and place it in the same directory.
 
 <a name="phylonet"></a>
 ## Testing hypotheses of introgression with PhyloNet
