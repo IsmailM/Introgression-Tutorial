@@ -19,6 +19,7 @@ This tutorial demonstrates how phylogenies based on whole-genome sequence data c
 * [Automating phylogenetic analyses with BEAST 2](#automating)
 	* [Automatically generating input files for BEAST](#autogenerating)
 	* [Running BEAST analyses in parallel](#parallelrunning)
+	* [Generating summary trees from the command line](#commandsummary)
 * [Testing hypotheses of introgression with PhyloNet](#phylonet)
 
 <a name="background"></a>
@@ -403,11 +404,11 @@ As explained above, beauti.rb expects the name of a directory as input, and it w
 
 In order to run BEAST from the command line, we'll need the Java binary file beast.jar. As this file is part of the BEAST 2 download, you should already have it on your machine. In the BEAST download directory, you'll find a subdirectory called `lib`. The file `beast.jar` should be located inside the `lib` subdirectory.
 
-* **Copy file** `beast.jar` from the `lib` subdirectory of the BEAST download directory to your directory for this tutorial.
+* **Identify the file** `beast.jar` in the `lib` subdirectory of the BEAST download directory, and note the path to the BEAST directory.
 
-* To **see available command line options** for `beast.jar`, type
+* To **see available command line options** for `beast.jar`, type the following command in a console window, after replacing `PATH_TO_BEAST` with the actual path to the BEAST download directory:
 
-		java -jar beast.jar -help
+		java -jar PATH_TO_BEAST/lib/beast.jar -help
 You'll see that these options allow some settings that are not available through the graphical user interface, for example to strictly use Java code (option `-java`) or to only validate an XML file (`-validate`), which may be useful for debugging. Also, when using the BEAGLE ([Ayres et al. 2012](http://sysbio.oxfordjournals.org/content/61/1/170)) library for fast computation (`-beagle`), the command line version allows more options, for example to distribute likelihood calculations to available computational resources (CPUs and GPUs) in a particular order (`-beagle_order`). With this option, analyses of large data sets can be performed more efficiently when several alignments are contained within the same XML file. However, when each XML includes only a single alignment (as is the case for our data sets), BEAST is not doing a very good job at parallelization, and the most effective way to make use of multiple processors is to start separate analyses in parallel.
 
 The best strategy to perform hundreds or thousands of BEAST analyses as quickly as possible depends on the computer architecture that you have available. If you have access to a large server, you could submit each analysis as a separate job, and they could in principle all be performed at the same time. Here, we will parallelize the analyses only partially, assuming that you have four processors available on your machine that can all be used for the BEAST analyses.
@@ -417,7 +418,7 @@ The best strategy to perform hundreds or thousands of BEAST analyses as quickly 
 	```bash
 	for i in alignment_blocks/LG05_0*/LG05_0*.xml
 	do
-		java -jar beast.jar -working ${i}
+		java -jar PATH_TO_BEAST/lib/beast.jar -working ${i}
 	done
 	```
 	This will perform BEAST analyses for all alignment blocks with ids that begin with "LG05_0". Because of the way in which we chose these ids, this will only include alignment blocks that start between position 1 and 9,999,999 on linkage group 5. By using the `-working` option, we tell BEAST to write output to the directory in which the XML file is located.
@@ -429,22 +430,40 @@ The best strategy to perform hundreds or thousands of BEAST analyses as quickly 
 	```bash
 	for i in alignment_blocks/LG05_1*/LG05_1*.xml
 	do
-		java -jar beast.jar -working ${i}
+		java -jar PATH_TO_BEAST/lib/beast.jar -working ${i}
 	done
 	```
 
 	```bash
 	for i in alignment_blocks/LG05_2*/LG05_2*.xml
 	do
-		java -jar beast.jar -working ${i}
+		java -jar PATH_TO_BEAST/lib/beast.jar -working ${i}
 	done
 	```
 	```bash
 	for i in alignment_blocks/LG05_3*/LG05_3*.xml
 	do
-		java -jar beast.jar -working ${i}
+		java -jar PATH_TO_BEAST/lib/beast.jar -working ${i}
 	done
 	```
+	This will cause all alignment blocks starting between position 10,000,000 and 19,999,999 to be analysed in the second console window, aligment blocks starting between positions 20,000,000 and 29,999,999 will be analysed in the third console window, and those starting between position 30,000,000 and 37,389,089 (the end of the linkage group) will be analysed at the same time in the fourth console window. Assuming that alignment blocks are more or less evenly distributed across the linkage group, this would split the set of input files roughly into four equally-sized sets. There are certainly smarter ways to distribute analyses to different processors, but the above parallelization should at least divide the overall run time by three.
+
+With this parallelization, the analysis of all alignment blocks would still require around 3 hours, but this is not necessary for this tutorial. You could just keep the analyses running until at least a few alignment blocks were analyses in each console window, and you could then just cancel the remaining analyses. Of course you could also decide to prioritize different sets of analyses (e.g. by using a more specific range of starting point with something like `for i in alignment_blocks/LG05_23*/LG05_23*.xml`) as other participants, so that you can obtain a larger set of unique results by sharing yours with others in the end.
+
+* To **cancel remaining analyses** and move on to the next part of the tutorial, type the key combination `Ctrl-Z` in all console windows.
+
+* After you cancelled the analyses, make sure to **remove partial BEAST output** files with ending `.log` and `.trees` for the interrupted analyses.
+
+<a name="commandsummary"></a>
+#### Generating summary trees from the command line
+
+Just like BEAST, the software TreeAnnotator can also be called from the command line. This means that we can execute TreeAnnotator inside of a loop to create summary trees for the previously generated files with `.trees` ending.
+
+* To learn how to call TreeAnnotator from the command line, type the following in a console window (all on one line):
+
+		java -Djava.library.path="PATH_TO_BEAST/lib/" -cp "PATH_TO_BEAST/lib/beast.jar" beast.app.treeannotator.TreeAnnotator -help
+This will show a list of available options. Of these, we're going to use `-heights` to use mean ages as node heights, and `-burnin` to remove the first 10% of the MCMC chain as burn-in, like we did before in the graphical user interface of TreeAnnotator.
+
 
 <a name="phylonet"></a>
 ## Testing hypotheses of introgression with PhyloNet
