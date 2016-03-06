@@ -461,8 +461,10 @@ Just like BEAST, the software TreeAnnotator can also be called from the command 
 
 * To learn how to call TreeAnnotator from the command line, type the following command in a console window, all on one line. You may have to scroll to the right to see the full command, and make sure to again replace `PATH_TO_BEAST` with the actual path to the BEAST directory.
 
-		java -Djava.library.path="PATH_TO_BEAST/lib/" -cp "PATH_TO_BEAST/lib/beast.jar" beast.app.treeannotator.TreeAnnotator -help
-This will show a list of available options. Of these, we're going to use `-heights` to use mean ages as node heights, and `-burnin` to remove the first 10% of the MCMC chain as burn-in, like we did before in the graphical user interface of TreeAnnotator.
+	```bash
+	java -Djava.library.path="PATH_TO_BEAST/lib/" -cp "PATH_TO_BEAST/lib/beast.jar" beast.app.treeannotator.TreeAnnotator -help
+	```	
+	This will show a list of available options. Of these, we're going to use `-heights` to use mean ages as node heights, and `-burnin` to remove the first 10% of the MCMC chain as burn-in, like we did before in the graphical user interface of TreeAnnotator.
 
 * To run TreeAnnotator for all BEAST output files with `.trees` ending, execute the following code, after replacing `PATH_TO_BEAST` (again, you may have to scroll to the right to see the full command):
 
