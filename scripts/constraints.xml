@@ -1,0 +1,42 @@
+				<distribution id="Oreochromini_Austrotilapiini.prior" monophyletic="true" spec="beast.math.distributions.MRCAPrior" tree="@tree.t:Species">
+					<taxonset id="Oreochromini_Austrotilapiini" spec="TaxonSet">
+						<taxon idref="Br"/>
+						<taxon idref="Gr"/>
+						<taxon idref="Ma"/>
+						<taxon idref="Mz"/>
+						<taxon idref="Ol"/>
+						<taxon idref="Pu"/>
+						<taxon idref="On"/>
+					</taxonset>
+					<!-- Secondary calibration based on McMahan et al. 2013 -->
+					<LogNormal meanInRealSpace="true" name="distr" offset="8.2">
+					    <parameter estimate="false" name="M">15.067</parameter>
+					    <parameter estimate="false" name="S">0.24</parameter>
+					</LogNormal>
+				</distribution>
+				
+				<distribution id="Haplochromini_Lamprologini.prior" monophyletic="true" spec="beast.math.distributions.MRCAPrior" tree="@tree.t:Species">
+					<taxonset id="Haplochromini_Lamprologini" spec="TaxonSet">
+						<taxon idref="Br"/>
+						<taxon idref="Gr"/>
+						<taxon idref="Ma"/>
+						<taxon idref="Mz"/>
+						<taxon idref="Ol"/>
+						<taxon idref="Pu"/>
+					</taxonset>
+					<!-- Secondary calibration based on McMahan et al. 2013 -->
+					<LogNormal meanInRealSpace="true" name="distr" offset="5.1">
+					    <parameter estimate="false" name="M">12.6</parameter>
+					    <parameter estimate="false" name="S">0.24</parameter>
+					</LogNormal>
+				</distribution>
+
+				<distribution id="Lamprologini.prior" monophyletic="true" spec="beast.math.distributions.MRCAPrior" tree="@tree.t:Species">
+					<taxonset id="Lamprologini" spec="TaxonSet">
+						<taxon idref="Br"/>
+						<taxon idref="Gr"/>
+						<taxon idref="Ma"/>
+						<taxon idref="Ol"/>
+						<taxon idref="Pu"/>
+					</taxonset>
+				</distribution>
