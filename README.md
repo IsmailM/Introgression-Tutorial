@@ -18,6 +18,7 @@ This tutorial demonstrates how phylogenies based on whole-genome sequence data c
 	* [Generating a summary tree for the BEAST analysis](#generating)
 * [Automating phylogenetic analyses with BEAST 2](#automating)
 	* [Automatically generating input files for BEAST](#autogenerating)
+	* [Running BEAST analyses in parallel](#parallelrunning)
 * [Testing hypotheses of introgression with PhyloNet](#phylonet)
 
 <a name="background"></a>
@@ -347,7 +348,7 @@ As a result, you should see the posterior probabilities for monophyly at each no
 <a name="automating"></a>
 ## Automating phylogenetic analyses with BEAST 2
 
-Obviously, for hundreds or thousands of alignment blocks, it would be preferable not to create all XMLs manually through BEAUti, run the XML files all one by one in BEAST, and generate each summary tree individually. Instead, it would be far more convenient to generate all XMLs automatically, run all BEAST analyses in parallel, and summarize all trees at once. This type of automation is arguably much easier for phylogenetic analyses with other tools such as RAxML, where all settings can be specified on the command line directly. Nevertheless, it is still possible with BEAST, and this part of the tutorial is going to demonstrate  how it works. We are going to use another Ruby script called beauti.rb to generate XML files for all alignment blocks, and we will start BEAST and TreeAnnotator from the command line, which allows to place these commands in a loop to execute them successively or in parallel.
+Obviously, for hundreds or thousands of alignment blocks, it would be preferable not to create all XMLs manually through BEAUti, run the XML files all one by one in BEAST, and generate each summary tree individually. Instead, it would be far more convenient to generate all XMLs automatically, run all BEAST analyses in parallel, and summarize all trees at once. This type of automation is much easier for phylogenetic analyses with other tools such as RAxML, where all settings can be specified on the command line directly. Nevertheless, it is still possible with BEAST, and this part of the tutorial is going to demonstrate  how it works. We are going to use another Ruby script called beauti.rb to generate XML files for all alignment blocks, and we will start BEAST and TreeAnnotator from the command line, which allows to place these commands in a loop to execute them successively or in parallel.
 
 As this part of the tutorial makes heavy use of the command line, it's probably more likely to work on Mac or Linux systems, but it might also work fine on Windows. It is optional and could be skipped if you're behind other participants, or more interested in the next part of the tutorial, [Testing hypothesis of introgression with PhyloNet](#phylonet).
 
@@ -392,6 +393,49 @@ As explained above, beauti.rb expects the name of a directory as input, and it w
 		done
 		
 * **Have a look** at the `alignment_blocks` directory. You should now see a large number of subdirectories, and each of them should contain a NEXUS file and an XML file.
+
+<a name="parallelrunning"></a>
+#### Running BEAST analyses in parallel
+
+In order to run BEAST from the command line, we'll need the Java binary file beast.jar. As this file is part of the BEAST 2 download, you should already have it on your machine. In the BEAST download directory, you'll find a subdirectory called `lib`. The file `beast.jar` should be located inside the `lib` subdirectory.
+
+* **Copy file** `beast.jar` from the `lib` subdirectory of the BEAST download directory to your directory for this tutorial.
+
+* To **see available command line options** for `beast.jar`, type
+
+		java -jar beast.jar -help
+You'll see that these options allow some settings that are not available through the graphical user interface, for example to strictly use Java code (option `-java`) or to only validate an XML file (`-validate`), which may be useful for debugging. Also, when using the BEAGLE ([Ayres et al. 2012](http://sysbio.oxfordjournals.org/content/61/1/170)) library for fast computation (`-beagle`), the command line version allows more options, for example to distribute likelihood calculations to available computational resources (CPUs and GPUs) in a particular order (`-beagle_order`). With this option, analyses of large data sets can be performed more efficiently when several alignments are contained within the same XML file. However, when each XML includes only a single alignment (as is the case for our data sets), BEAST is not doing a very good job at parallelization, and the most effective way to make use of multiple processors is to start separate analyses in parallel.
+
+The best strategy to perform hundreds or thousands of BEAST analyses as quickly as possible depends on the computer architecture that you have available. If you have access to a large server, you could submit each analysis as a separate job, and they could in principle all be performed at the same time. Here, we will parallelize the analyses only partially, assuming that you have four processors available on your machine that can all be used for the BEAST analyses.
+
+* To analyse roughly a fourth of the XML files successively, **execute the following code**:
+
+		for i in alignment_blocks/LG05_0*/LG05_0*.xml
+		do
+			java -jar beast.jar -working ${i}
+		done
+This will perform BEAST analyses for all alignment blocks with ids that begin with "LG05_0". Because of the way in which we chose these ids, this will only include alignment blocks that start between position 1 and 9,999,999 on linkage group 5. By using the `-working` option, we tell BEAST to write output to the directory in which the XML file is located.
+
+* To perform more BEAST analyses at the same time, open **three more console windows**, and navigate to the tutorial's directory in each of them.
+
+* **Execute these three blocks of code**, each in one of the newly opened console windows:
+
+	```sh
+	for i in alignment_blocks/LG05_1*/LG05_1*.xml
+	do
+		java -jar beast.jar -working ${i}
+	done
+	```
+
+		for i in alignment_blocks/LG05_2*/LG05_2*.xml
+		do
+			java -jar beast.jar -working ${i}
+		done
+
+		for i in alignment_blocks/LG05_3*/LG05_3*.xml
+		do
+			java -jar beast.jar -working ${i}
+		done
 
 <a name="phylonet"></a>
 ## Testing hypotheses of introgression with PhyloNet
