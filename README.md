@@ -21,6 +21,8 @@ This tutorial demonstrates how phylogenies based on whole-genome sequence data c
 	* [Running BEAST analyses in parallel](#parallelrunning)
 	* [Generating summary trees from the command line](#commandsummary)
 * [Testing hypotheses of introgression with PhyloNet](#phylonet)
+	* [Preparing input for PhyloNet](#preparephylonet)
+	* [Running the PhyloNet analysis](#runphylonet)
 
 <a name="background"></a>
 ## Background
@@ -483,4 +485,21 @@ Just like BEAST, the software TreeAnnotator can also be called from the command 
 <a name="phylonet"></a>
 ## Testing hypotheses of introgression with PhyloNet
 
-...to be written.
+The software PhyloNet is one of the first to implement a model, with which the likelihood can be calculated for a phylogenetic tree with or without reticulation edges, based on a sample of local phylogenies. These reticulation edges represent introgression events, and are considered to be unidirectional. The edges are associated with estimated weights, which indicate the proportion of the genome of the recipient species that was transferred along this reticulation edge.
+
+This likelihood model was introduced in 2014 in a paper in PNAS where the authors ([Yu et al. 2014](http://www.pnas.org/content/111/46/16448.abstract)) used it to test for introgression between subspecies of the house mouse. It is implemented in two main functions of PhyloNet called "CalGTProb" and "InferNetwork\_ML". Of these, the first ("CalGTProb") only calculates the likelihood for a given phylogenetic tree with or without reticulation. It can thus be used to compare the likelihoods for two different phylogenetic histories and therefore allows hypothesis testing. In contrast, the second method ("InferNetwork\_ML") does not require a particular hypothesis, instead it aims to find the tree with a given number of reticulation edges that maximized the likelihood of the data (the set of local phylogenies). More information about these and other methods can be found here: [https://wiki.rice.edu/confluence/display/PHYLONET/List+of+PhyloNet+Commands](https://wiki.rice.edu/confluence/display/PHYLONET/List+of+PhyloNet+Commands).
+
+A drawback of the model implemented in PhyloNet is that it assumes that the local phylogenies used as input are without uncertainty in their topology and their divergence times. For phylogenies based on long alignment blocks like the ones used here, assuming error-free topologies is probably not too unrealistic. But the divergence times of these phylogenies are clearly not known without uncertainty, as we have seen before when inspecting one of the phylogenies in FigTree. As the inference may be biased if divergence dates are overestimated in some input trees and underestimated in others, it is probably safer to ignore branch lengths completely and only use the tree topologies (and this is actually the default in both "CalGTProb" and "InferNetwork\_ML").
+
+The second of the two methods, "InferNetwork\_ML", is computationally rather demanding and may run for several days depending on the number of input trees and assumed reticulation edges. Therefore we will only use the function "CalGTProb" in this tutorial, which runs much faster. We will use it to calculate the likelihood for an assumed species tree without reticulation, and for a species tree that includes introgression from *Neolamprologus brichardi* to *Neolamprologus pulcher*.
+
+<br><br>
+![Hypotheses](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/hypotheses.png "Hypotheses")<br><br>
+
+<a name="preparephylonet"></a>
+#### Preparing input for PhyloNet
+
+... to be written.
+
+<a name="runphylonet"></a>
+#### Running the PhyloNet analysis
