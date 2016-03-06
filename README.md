@@ -420,7 +420,7 @@ This will perform BEAST analyses for all alignment blocks with ids that begin wi
 
 * **Execute these three blocks of code**, each in one of the newly opened console windows:
 
-	```sh
+	```bash
 	for i in alignment_blocks/LG05_1*/LG05_1*.xml
 	do
 		java -jar beast.jar -working ${i}
