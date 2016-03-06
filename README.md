@@ -459,7 +459,7 @@ With this parallelization, the analysis of all alignment blocks would still requ
 
 Just like BEAST, the software TreeAnnotator can also be called from the command line. This means that we can execute TreeAnnotator inside of a loop to create summary trees for the previously generated files with `.trees` ending.
 
-* To learn how to call TreeAnnotator from the command line, type the following in a console window (all on one line):
+* To learn how to call TreeAnnotator from the command line, type the following in a console window (all on one line, you may have to scroll to the right to see the full command):
 
 		java -Djava.library.path="PATH_TO_BEAST/lib/" -cp "PATH_TO_BEAST/lib/beast.jar" beast.app.treeannotator.TreeAnnotator -help
 This will show a list of available options. Of these, we're going to use `-heights` to use mean ages as node heights, and `-burnin` to remove the first 10% of the MCMC chain as burn-in, like we did before in the graphical user interface of TreeAnnotator.
