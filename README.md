@@ -376,21 +376,25 @@ As explained above, beauti.rb expects the name of a directory as input, and it w
 
 * To **create subdirectories, and move the NEXUS files** into them, execute the below piece of code in a console window:
 
-		for i in alignment_blocks/*.nex
-		do
-			run_id_w_ext=`basename $i`
-			run_id=${run_id_w_ext%.nex}
-			mkdir alignment_blocks/${run_id}
-			mv ${i} alignment_blocks/${run_id}
-		done
+	```bash
+	for i in alignment_blocks/*.nex
+	do
+		run_id_w_ext=`basename $i`
+		run_id=${run_id_w_ext%.nex}
+		mkdir alignment_blocks/${run_id}
+		mv ${i} alignment_blocks/${run_id}
+	done
+	```
 
 * Next, **run the script beauti.rb** to produce XML files for each of the NEXUS files. To do so, execute this code:
 
-		for i in alignment_blocks/*
-		do
-			run_id=`basename $i`
-			ruby beauti.rb -id ${run_id} -n ${i} -o ${i} -c constraints.xml -l 2000000 -m GTR
-		done
+	```bash
+	for i in alignment_blocks/*
+	do
+		run_id=`basename $i`
+		ruby beauti.rb -id ${run_id} -n ${i} -o ${i} -c constraints.xml -l 2000000 -m GTR
+	done
+	```
 		
 * **Have a look** at the `alignment_blocks` directory. You should now see a large number of subdirectories, and each of them should contain a NEXUS file and an XML file.
 
@@ -409,14 +413,14 @@ You'll see that these options allow some settings that are not available through
 The best strategy to perform hundreds or thousands of BEAST analyses as quickly as possible depends on the computer architecture that you have available. If you have access to a large server, you could submit each analysis as a separate job, and they could in principle all be performed at the same time. Here, we will parallelize the analyses only partially, assuming that you have four processors available on your machine that can all be used for the BEAST analyses.
 
 * To analyse roughly a fourth of the XML files successively, **execute the following code**:
+
 	```bash
 	for i in alignment_blocks/LG05_0*/LG05_0*.xml
 	do
 		java -jar beast.jar -working ${i}
 	done
 	```
-	
-This will perform BEAST analyses for all alignment blocks with ids that begin with "LG05_0". Because of the way in which we chose these ids, this will only include alignment blocks that start between position 1 and 9,999,999 on linkage group 5. By using the `-working` option, we tell BEAST to write output to the directory in which the XML file is located.
+	This will perform BEAST analyses for all alignment blocks with ids that begin with "LG05_0". Because of the way in which we chose these ids, this will only include alignment blocks that start between position 1 and 9,999,999 on linkage group 5. By using the `-working` option, we tell BEAST to write output to the directory in which the XML file is located.
 
 * To perform more BEAST analyses at the same time, open **three more console windows**, and navigate to the tutorial's directory in each of them.
 
