@@ -474,7 +474,11 @@ Just like BEAST, the software TreeAnnotator can also be called from the command 
 		java -Djava.library.path="PATH_TO_BEAST/lib/" -cp "PATH_TO_BEAST/lib/beast.jar" beast.app.treeannotator.TreeAnnotator -heights mean -burnin 10 ${i} ${i%.trees}.tre
 	done
 	```
+	As a result you should obtain a summary tree files with ending `.tre`, for each alignment block that you analysed with BEAST.
+	
+* To get an overview over all produced summary tree files, type
 
+		ls alignment_blocks/LG05*/LG05*.tre
 
 <a name="phylonet"></a>
 ## Testing hypotheses of introgression with PhyloNet
