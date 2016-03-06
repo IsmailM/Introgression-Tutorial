@@ -59,5 +59,5 @@ end
 
 # Use the tree string to overwrite the input file.
 output_file = File.open(output_file_name,"w")
-output_file.write("#{tree_string}\n")
+output_file.write("#{tree_string};\n")
 output_file.close
