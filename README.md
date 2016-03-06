@@ -356,9 +356,42 @@ As this part of the tutorial makes heavy use of the command line, it's probably 
 
 We will need to download two files to run this part of the tutorial, the Ruby script beauti.rb and a block of XML code, which will be inserted into all XML format files written by beauti.rb. This block of code specifies the age constraints for the taxon set that we labelled "Oreochromini\_Austrotilapiini" above (i.e. all seven species and thus the divergence between *Oreochromis niloticus* and all other species), and for the taxon set that we named "Haplochromini\_Lamprologini" (i.e. the divergence between *Metriaclima zebra* and the five *Neolamprologus* species).
 
-* Download the Ruby script beauti.rb from [https://rawgit.com/mmatschiner/Introgression-Tutorial/master/scripts/beauti.rb](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/scripts/beauti.rb) and place it in the directory that you use for this tutorial.
+* **Download the Ruby script beauti.rb** from [https://rawgit.com/mmatschiner/Introgression-Tutorial/master/scripts/beauti.rb](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/scripts/beauti.rb) and place it in the directory that you use for this tutorial.
 
-* Download the file with the XML code for the two age constraints from [https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/scripts/constraints.xml](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/scripts/constraints.xml) and place it in the same directory.
+* **Download the file** with the XML code for the two age constraints from [https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/scripts/constraints.xml](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/scripts/constraints.xml) and place it in the same directory.
+
+* To **see some information about the Ruby script beauti.rb**, run it with the `-h` option:
+
+		ruby beauti.rb -h
+This will show the help text of this script, which explains the available options. You'll see that a large number of options are available to cover not only the standard settings of BEAST, but also allow analyses with for example the multispecies coalescent model of *BEAST ([Heled & Drummond](https://mbe.oxfordjournals.org/content/27/3/570.abstract), [Ogilvie et al. 2016](http://sysbio.oxfordjournals.org/content/early/2016/02/27/sysbio.syv118.abstract)) or Path Sampling ([Baele et al. 2012](http://mbe.oxfordjournals.org/content/29/9/2157.short)). Of the options listed, we will use the following:  
+`-id` to specify an analysis id for each alignment block. This is a required parameter, and the specified id will be used to name the `.log` and `.trees` files resulting from the BEAST analysis.  
+`-n` to specify the name of the input directory. By default, the script takes all files with `.nex` ending that it finds in this directory and uses them all jointly in the XML file. As we would like to run separate analyses with each alignment block (thus, for each NEXUS file), we will have to create subdirectories in the `alignment_blocks` directory, so that each subdirectory contains only a single NEXUS file. We'll get to that in the next step.  
+`-o` to specify the name of the output directory. For this, we'll use the same as the input directory.
+`-c` to specify the name of file `constraints.xml` containing age constraints in XML format.
+`-l` to specify a run length of 2 million MCMC steps (otherwise a length of 50 million would be used by default).
+`-m` to specify the GTR model as the model of sequence evolution (otherwise, the HKY model would be used by default).
+
+As explained above, beauti.rb expects the name of a directory as input, and it will use all NEXUS files within that directory in the XML file. Thus, we have to create subdirectories within the `alignment_blocks` directory, and we have to move each NEXUS file into its own subdirectory.
+
+* To **create subdirectories, and move the NEXUS files** into them, execute the below piece of code in a console window:
+
+		for i in alignment_blocks/*.nex
+		do
+			run_id_w_ext=`basename $i`
+			run_id=${run_id_w_ext%.nex}
+			mkdir alignment_blocks/${run_id}
+			mv ${i} alignment_blocks/${run_id}
+		done
+
+* Next, **run the script beauti.rb** to produce XML files for each of the NEXUS files. To do so, execute this code:
+
+		for i in alignment_blocks/*
+		do
+			run_id=`basename $i`
+			ruby beauti.rb -id ${run_id} -n ${i} -o ${i} -c constraints.xml -l 2000000 -m GTR
+		done
+		
+* **Have a look** at the `alignment_blocks` directory. You should now see a large number of subdirectories, and each of them should contain a NEXUS file and an XML file.
 
 <a name="phylonet"></a>
 ## Testing hypotheses of introgression with PhyloNet
