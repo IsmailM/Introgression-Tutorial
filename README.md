@@ -68,6 +68,8 @@ In this part of the tutorial, the sofware Saguaro will be used to detect boundar
 
 At the beginning of the analysis, Saguaro will calculate a single cactus for the entire alignment, and a score is calcuated for each variable alignment position, describing the fit between this site and the first cactus. Based on these scores, genomic regions with a poor fit to the current cactus are identied with the hidden Markov model implemented in Saguaro, and a new cactus is defined for these. This process is repeated multiple times, thus further partitioning the alignment into segments, and at the same time assigning one out of an increasing set of cacti to each segment. Details of this procedure are described in Zamani et al. ([2013](http://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-14-347)).
 
+If you're having difficulties installing Saguaro, or you would like to skip the Saguaro analysis anyway, you could just download a file with ready-made Saguaro results (`LocalTrees.out`) from [https://rawgit.com/mmatschiner/Introgression-Tutorial/master/results/LocalTrees.out](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/results/LocalTrees.out), place this in a directory called `saguaro_results`, and jump right in at [Interpreting the results of a Saguaro analysis](#interpretsaguaro) (there, skip the first two steps in which the other Saguaro result file `saguaro.cactus` is inspected).
+
 <a name="runsaguaro"></a>
 ####Applying the hidden Markov model of Saguaro
 
