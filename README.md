@@ -11,6 +11,9 @@ This tutorial demonstrates how phylogenies based on whole-genome sequence data c
 * [Background](#background)
 * [Requirements for this tutorial](#requirements)
 * [Identification of genomic regions for phylogenetic inference](#identification)
+	* [Applying the hidden Markov model of Saguaro](#runsaguaro)
+	* [Interpreting the results of a Saguaro analysis](#interpretsaguaro)
+	* [Generating alignment blocks based on Saguaro results](#generatesaguaro)
 * [Bayesian phylogenetic inference with BEAST 2](#beast2)
 	* [Preparing the BEAST analysis](#preparing)
 	* [Running the BEAST analysis](#running)
@@ -65,6 +68,9 @@ In this part of the tutorial, the sofware Saguaro will be used to detect boundar
 
 At the beginning of the analysis, Saguaro will calculate a single cactus for the entire alignment, and a score is calcuated for each variable alignment position, describing the fit between this site and the first cactus. Based on these scores, genomic regions with a poor fit to the current cactus are identied with the hidden Markov model implemented in Saguaro, and a new cactus is defined for these. This process is repeated multiple times, thus further partitioning the alignment into segments, and at the same time assigning one out of an increasing set of cacti to each segment. Details of this procedure are described in Zamani et al. ([2013](http://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-14-347)).
 
+<a name="runsaguaro"></a>
+####Applying the hidden Markov model of Saguaro
+
 As a full Saguaro analysis can take several hours to days depending on the size of the sequence alignment, only a preliminary analysis of a single chromosome (linkage group 5 of the tilapia genome assembly) will be done as part of this tutorial.
 
 * As a first step, please **download the sequence alignment** for linkage group 5 from [https://github.com/mmatschiner/Introgression-Tutorial/blob/master/LG05.fasta.zip?raw=true](https://github.com/mmatschiner/Introgression-Tutorial/blob/master/LG05.fasta.zip?raw=true) (the download may take a few moments to start). Save it in a directory, in which you'ld like to run this tutorial.
@@ -85,6 +91,9 @@ Here, the input file is specified with the `-i` option, the name of the output f
 
 		Saguaro -f LG05.feature -o saguaro_results -iter 16 -cycle 1 -neurons 100
 This specifies that file `LG05.feature` is used as input for Saguaro and that all results are written to a directory called `saguaro_results`, which is created by Saguaro. If more than one alignment was used as the input, these could be specified something like `-l all_features.txt`, where the file `all_features.txt` would have to contain only a list of the file names of all input "feature" files. We here use the options `-iter 16`, `-cycle 1`, and `-neurons 100` only in order to reduce the run time for the purpose of this tutorial. With these options, Saguaro runs 16 iterations in which cacti are added, and each iteration contains a single cycle in which cacti are optimized and assigned to sites. The 100 "neurons" are used to generate a new cactus in each iteration based on the sites that have the lowest fit to any of the cacti already included in the model. If we would not specify these options, Saguaro would by default perform 40 iterations with 2 cycles per iteration, and it would use 800 neurons. Each of these changes would increase the run duration, but probably also the accuracy of the results, and it is recommend to keep the default options whenever the resulting run time is acceptable. With the settings used here, the Saguaro analysis should take 10-15 minutes, depending on the speed of your computer.
+
+<a name="interpretsaguaro"></a>
+####Interpreting the results of a Saguaro analysis
 
 * Once the Saguaro analysis has finished, results should have been written to directory `saguaro_results`. **Have a look at the content of this directory**. You'll see the following files:
 
@@ -200,6 +209,9 @@ This will generate a vector graphic file in SVG format that will be written to t
 In this image, segments assigned to the most common cactus are drawn in dark gray, and segments assigned to other cacti are shown in red, orange, cyan, and light green, purple (in decreasing frequency). With more than six different cacti, all remaining cacti are shown in light gray. As you can see, only four cacti are common (dark gray, red, orange, and cyan). Also, you'll notice that the most frequent cactus (in dark gray) is mostly found in the center of the linage group, while other cacti dominate towards the ends of the linkage group. These results may not be particularly accurate, as we've only performed a preliminary Saguaro analysis. For comparison, this is how the results from a much longer analysis with default Saguaro settings would look like:<br>
 ![LocalTrees_full.svg](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/images/LocalTrees_full.svg "LocalTrees_full.svg")<br>
 You'll notice that some details are different in these two images, however, the overall pattern is the same.
+
+<a name="generatesaguaro"></a>
+####Generating alignment blocks based on Saguaro results
 
 Now that we have estimated the positions of boundaries between alignment regions that are characterized by different distance matrices, we can extract alignment blocks that are not broken up by any of the boundaries. We can do this with another Ruby script that takes both the linkage group alignment and the Saguaro results file `LocalTrees.out` as input, and cuts the alignment into blocks according to the Saguaro results.
 
