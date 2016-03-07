@@ -27,6 +27,7 @@ This tutorial demonstrates how phylogenies based on whole-genome sequence data c
 	* [Preparing input for PhyloNet](#preparephylonet)
 	* [Running the PhyloNet analysis](#runphylonet)
 
+<br>
 <a name="background"></a>
 ## Background
 
@@ -62,6 +63,7 @@ The following software needs to be installed on your machine in order to run all
 
 * **PhyloNet:** The latest binary jar file of the software PhyloNet can be downloaded from [http://bioinfo.cs.rice.edu/phylonet](http://bioinfo.cs.rice.edu/phylonet), which should run on all operating systems. After download, the file should be placed in a directory that can easily be accessed from the command line.
 
+<br>
 <a name="identification"></a>
 ## Identification of genomic regions for phylogenetic inference
 
@@ -71,6 +73,7 @@ At the beginning of the analysis, Saguaro will calculate a single cactus for the
 
 If you're having difficulties installing Saguaro, or you would like to skip the Saguaro analysis anyway, you could just download a file with ready-made Saguaro results (`LocalTrees.out`) from [https://rawgit.com/mmatschiner/Introgression-Tutorial/master/results/LocalTrees.out](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/results/LocalTrees.out), place this in a directory called `saguaro_results`, and jump right in at [Interpreting the results of a Saguaro analysis](#interpretsaguaro) (there, skip the first two steps in which the other Saguaro result file `saguaro.cactus` is inspected).
 
+<br>
 <a name="runsaguaro"></a>
 ####Applying the hidden Markov model of Saguaro
 
@@ -95,6 +98,7 @@ Here, the input file is specified with the `-i` option, the name of the output f
 		Saguaro -f LG05.feature -o saguaro_results -iter 16 -cycle 1 -neurons 100
 This specifies that file `LG05.feature` is used as input for Saguaro and that all results are written to a directory called `saguaro_results`, which is created by Saguaro. If more than one alignment was used as the input, these could be specified something like `-l all_features.txt`, where the file `all_features.txt` would have to contain only a list of the file names of all input "feature" files. We here use the options `-iter 16`, `-cycle 1`, and `-neurons 100` only in order to reduce the run time for the purpose of this tutorial. With these options, Saguaro runs 16 iterations in which cacti are added, and each iteration contains a single cycle in which cacti are optimized and assigned to sites. The 100 "neurons" are used to generate a new cactus in each iteration based on the sites that have the lowest fit to any of the cacti already included in the model. If we would not specify these options, Saguaro would by default perform 40 iterations with 2 cycles per iteration, and it would use 800 neurons. Each of these changes would increase the run duration, but probably also the accuracy of the results, and it is recommend to keep the default options whenever the resulting run time is acceptable. With the settings used here, the Saguaro analysis should take 10-15 minutes, depending on the speed of your computer.
 
+<br>
 <a name="interpretsaguaro"></a>
 ####Interpreting the results of a Saguaro analysis
 
@@ -213,6 +217,7 @@ In this image, segments assigned to the most common cactus are drawn in dark gra
 ![LocalTrees_full.svg](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/images/LocalTrees_full.svg "LocalTrees_full.svg")<br>
 You'll notice that some details are different in these two images, however, the overall pattern is the same.
 
+<br>
 <a name="generatesaguaro"></a>
 ####Generating alignment blocks based on Saguaro results
 
@@ -259,6 +264,7 @@ While we here use BEAST only for very simple phylogenetic analyses, the software
 
 If you know the basics of BEAST and its XML format already, and you would rather like to learn how to automate BEAST analysis for a large number of alignments, feel free to skip this part and continue below, at [Automating phylogenetic analyses with BEAST 2](#automating).
 
+<br>
 <a name="preparing"></a>
 #### Preparing the BEAST analysis
 
@@ -301,6 +307,7 @@ The values on the x-axis of this plot can be considered to be in units of millio
 
 * Take a moment to **look through the XML format file**, to familiarize yourself with the specifications. Note that the sequence alignment is given at the top of the file with `<data ...>...</data>`, followed by several definitions of shortcuts for mathematical distributions, in elements that start and end with `<map>...</map>`. Everything else is defined within the `<run ...>...</run>` element, including the chain length on the same line as `<run ...>`, the `<state ...>...</state>` element in which all model parameters are introduced, and the `<init ...>...</init>` element which tells BEAST how to initialize the tree for the very first MCMC step. All priors, including the taxon sets, as well as the way to calculate the likelihood are listed inside the element that starts with `<distribution id=posterior ...>` and ends on roughly line 155. Below this, the `<operator .../>` elements specify how new parameter values should be chosen at each step of the MCMC, and the `<logger ...>...</logger>` elements tell BEAST which information should be logged to files or to the screen output.
 
+<br>
 <a name="running"></a>
 #### Running the BEAST analysis
 
@@ -315,6 +322,7 @@ The values on the x-axis of this plot can be considered to be in units of millio
 
 * Once the analysis has finished, **close BEAST**.
 
+<br>
 <a name="assessing"></a>
 #### Assessing convergence of the BEAST analysis
 
@@ -331,6 +339,7 @@ Besides the ESS values, visually inspecting how the parameter estimates have cha
 * To see the trace of the parameter that is currently selected in the bottom-left panel, click on "Trace", at the top of the panel on the right-hand side:<br><br>
 ![TRACER screenshot](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/tracer2.png "TRACER screenshot")<br><br>This is what the authors call a "hairy caterpillar", which is a good sign of convergence. Apparently, the estimates for the posterior probability have gone up and down between -169335 and -169325 (these are log values), but this range seems to represent a plateau that was reached within the first 50000 MCMC steps (burn-in steps at the left of the plot are shown in light gray).
 
+<br>
 <a name="generating"></a>
 #### Generating a summary tree for the BEAST analysis
 
@@ -363,6 +372,7 @@ As a result, you should see the posterior probabilities for monophyly at each no
 
 * If you have the time, **you could repeat the Bayesian phylogenetic analysis** for additional randomly selected alignment blocks. You could either do this manually as described above, or read the next section to learn how a large number of BEAST analyses can be prepared and executed at the same time.
 
+<br>
 <a name="automating"></a>
 ## Automating phylogenetic analyses with BEAST 2
 
@@ -370,6 +380,7 @@ Obviously, for hundreds or thousands of alignment blocks, it would be preferable
 
 As this part of the tutorial makes heavy use of the command line, it's probably more likely to work on Mac or Linux systems, but it might also work fine on Windows. It is optional and could be skipped if you're behind other participants, or more interested in the next part of the tutorial, [Testing hypothesis of introgression with PhyloNet](#phylonet).
 
+<br>
 <a name="autogenerating"></a>
 #### Automatically generating input files for BEAST
 
@@ -471,6 +482,7 @@ With this parallelization, the analysis of all alignment blocks would still requ
 
 * After you cancelled the analyses, make sure to **remove partial BEAST output** files with ending `.log` and `.trees` for the interrupted analyses.
 
+<br>
 <a name="commandsummary"></a>
 #### Generating summary trees from the command line
 
@@ -508,6 +520,7 @@ The second of the two methods, "InferNetwork\_ML", is computationally rather dem
 ![Hypotheses](https://raw.githubusercontent.com/mmatschiner/Introgression-Tutorial/master/images/hypotheses.png "Hypotheses")<br><br>
 A drawback of the model implemented in PhyloNet is that it assumes that the local phylogenies used as input are without uncertainty in their topology and their divergence times. For phylogenies based on long alignment blocks like the ones used here, assuming error-free topologies is probably not too unrealistic. But the divergence times of these phylogenies are clearly not known without uncertainty, as we have seen before when inspecting one of the phylogenies in FigTree. As the inference may be biased if divergence dates are overestimated in some input trees and underestimated in others, it is probably safer to ignore branch lengths completely and only use the tree topologies (and this is actually the default in both "CalGTProb" and "InferNetwork\_ML").
 
+<br>
 <a name="preparephylonet"></a>
 #### Preparing input for PhyloNet
 
@@ -584,6 +597,7 @@ These settings specify that we want to use function `CalGTProb` with the network
 
 * **Save the file now under a new name**, as `alternative_hypothesis.nex`.
 
+<br>
 <a name="runphylonet"></a>
 #### Running the PhyloNet analysis
 
