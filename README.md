@@ -183,7 +183,7 @@ You should see output like this:
 
  		cat saguaro_results/LocalTrees.out | grep length | wc -l
  		
-* In order to visualize segment boundaries and the cacti assigned to segments, **download the Ruby script paint_chromosomes.rb** from [https://github.com/mmatschiner/Introgression-Tutorial/blob/master/paint_chromosomes.rb?raw=true](https://github.com/mmatschiner/Introgression-Tutorial/blob/master/paint_chromosomes.rb?raw=true), and save it in the directory that you're using for this tutorial.
+* In order to visualize segment boundaries and the cacti assigned to segments, **download the Ruby script paint_chromosomes.rb** from [https://rawgit.com/mmatschiner/Introgression-Tutorial/master/scripts/paint_chromosomes.rb](https://rawgit.com/mmatschiner/Introgression-Tutorial/master/scripts/paint_chromosomes.rb), and save it in the directory that you're using for this tutorial.
 
 * **See whether the script can run** on your machine by typing
 
